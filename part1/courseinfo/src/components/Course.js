@@ -1,4 +1,4 @@
-const Header = (props) => <h1>{props.course}</h1>
+const Header = (props) => <h2>{props.course}</h2>
 
 const Total = (props) => {
   const { parts } = props
