@@ -1,5 +1,63 @@
 import { useState } from 'react'
 
+const Filter = ({ filterString, setFilterString }) => {
+  return (
+    <div>
+      filter shown with{' '}
+      <input
+        type='text'
+        value={filterString}
+        onChange={(e) => setFilterString(e.target.value)}
+      />
+    </div>
+  )
+}
+
+const PersonForm = ({
+  newName,
+  setNewName,
+  newNumber,
+  setNewNumber,
+  addNewName,
+}) => {
+  return (
+    <form onSubmit={addNewName}>
+      <div>
+        name:{' '}
+        <input onChange={(e) => setNewName(e.target.value)} value={newName} />
+      </div>
+      <div>
+        number:{' '}
+        <input
+          onChange={(e) => setNewNumber(e.target.value)}
+          value={newNumber}
+        />
+      </div>
+      <div>
+        <button type='submit'>add</button>
+      </div>
+    </form>
+  )
+}
+
+const Number = ({ person }) => {
+  return (
+    <div key={person.id}>
+      {person.name} {person.number}
+    </div>
+  )
+}
+
+const Numbers = ({ persons }) => {
+  return (
+    <>
+      {persons.map((person) => (
+        <Number key={person.id} person={person} />
+      ))}
+    </>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -29,37 +87,20 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with{' '}
-        <input
-          type='text'
-          value={filterString}
-          onChange={(e) => setFilterString(e.target.value)}
-        />
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addNewName}>
-        <div>
-          name:{' '}
-          <input onChange={(e) => setNewName(e.target.value)} value={newName} />
-        </div>
-        <div>
-          number:{' '}
-          <input
-            onChange={(e) => setNewNumber(e.target.value)}
-            value={newNumber}
-          />
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {personsToShow.map((person) => (
-        <div key={person.id}>
-          {person.name} {person.number}
-        </div>
-      ))}
+
+      <Filter filterString={filterString} setFilterString={setFilterString} />
+
+      <h3>add a new</h3>
+      <PersonForm
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+        addNewName={addNewName}
+      />
+
+      <h3>Numbers</h3>
+      <Numbers persons={personsToShow} />
     </div>
   )
 }
