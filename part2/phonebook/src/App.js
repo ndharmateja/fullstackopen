@@ -28,8 +28,10 @@ const App = () => {
     setNewNumber('')
   }
 
-  const personsToShow = persons.filter((person) =>
-    person.name.toLowerCase().includes(filterString.toLowerCase())
+  const personsToShow = persons.filter(
+    (person) =>
+      person.name.toLowerCase().includes(filterString.toLowerCase()) ||
+      person.number.toLowerCase().includes(filterString.toLowerCase())
   )
 
   return (
