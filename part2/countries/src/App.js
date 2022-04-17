@@ -1,44 +1,108 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Countries = ({ countries }) => {
-  const getCountryName = (country) => country.name.common
+const apiKey = process.env.REACT_APP_OPEN_WEATHER_API_KEY
 
-  if (countries.length > 10) {
+const Weather = ({ latlng }) => {
+  const [lat, lng] = latlng
+  const [weather, setWeather] = useState(undefined)
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}&units=metric`
+      )
+      .then((response) => setWeather(response.data))
+      .catch(console.log)
+  }, [])
+
+  if (typeof weather === 'undefined') return <div></div>
+
+  const temperature = weather.main.temp
+  const iconId = weather.weather[0].icon
+  const windSpeed = weather.wind.speed
+
+  return (
+    <>
+      <div>temperature {temperature} Celsius</div>
+      <img
+        src={`http://openweathermap.org/img/wn/${iconId}@2x.png`}
+        alt=''
+        width='100'
+      />
+      <div>wind {windSpeed} m/s</div>
+    </>
+  )
+}
+
+const Country = ({ country }) => {
+  return (
+    <>
+      <h1>{country.name.common}</h1>
+      <div>capital {country.capital[0]}</div>
+      <div>area {country.area}</div>
+      <h3>languages</h3>
+      <ul>
+        {Object.values(country.languages).map((language) => (
+          <li key={language}>{language}</li>
+        ))}
+      </ul>
+      <div>
+        <img src={`${country.flags.png}`} alt='' width='150' />
+      </div>
+      <h2>Weather in {country.capital[0]}</h2>
+      <Weather latlng={country.capitalInfo.latlng} />
+    </>
+  )
+}
+
+const Countries = ({ countries, countryNameSelected }) => {
+  const [selectedCountryName, setSelectedCountryName] =
+    useState(countryNameSelected)
+
+  const handleButtonClick = (countryName) => {
+    setSelectedCountryName(countryName)
+  }
+  console.log(countries.length)
+  console.log('Countries component')
+  console.log('selected country', selectedCountryName, '\n')
+
+  if (countries.length === 0) {
+    return <div>No countries</div>
+  } else if (countries.length > 10) {
     return <div>Too many matches, specify another filter</div>
   } else if (countries.length === 1) {
     const country = countries[0]
-    return (
-      <>
-        <h2>{getCountryName(country)}</h2>
-        <div>capital {country.capital[0]}</div>
-        <div>area {country.area}</div>
-        <h3>languages</h3>
-        <ul>
-          {Object.values(country.languages).map((language) => (
-            <li key={language}>{language}</li>
-          ))}
-        </ul>
-        <div>
-          <img src={`${country.flags.png}`} alt='' width='150' />
-        </div>
-      </>
-    )
+    return <Country country={country} />
   } else if (countries.length > 1) {
-    return (
-      <>
-        {countries.map((country) => {
-          const countryName = getCountryName(country)
-          return <div key={countryName}>{countryName}</div>
-        })}
-      </>
-    )
+    if (selectedCountryName.length !== 0) {
+      const country = countries.find(
+        (country) => country.name.common === selectedCountryName
+      )
+      return <Country country={country} />
+    } else
+      return (
+        <>
+          {countries.map((country) => {
+            const countryName = country.name.common
+            return (
+              <div key={countryName}>
+                {countryName}{' '}
+                <button onClick={() => handleButtonClick(countryName)}>
+                  show
+                </button>
+              </div>
+            )
+          })}
+        </>
+      )
   }
 }
 
 const App = () => {
   const [countries, setCountries] = useState([])
   const [filterString, setFilterString] = useState('')
+  const [countryNameSelected, setCountryNameSelected] = useState('')
 
   useEffect(() => {
     axios
@@ -58,10 +122,16 @@ const App = () => {
         <input
           type='text'
           value={filterString}
-          onChange={(e) => setFilterString(e.target.value)}
+          onChange={(e) => {
+            setFilterString(e.target.value)
+            setCountryNameSelected('')
+          }}
         />
       </div>
-      <Countries countries={countriesToShow} />
+      <Countries
+        countries={countriesToShow}
+        countryNameSelected={countryNameSelected}
+      />
     </>
   )
 }
