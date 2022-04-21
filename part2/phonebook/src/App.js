@@ -17,8 +17,8 @@ const App = () => {
       .catch(console.log)
   }, [])
 
-  const addNewName = (e) => {
-    e.preventDefault()
+  const addNewName = (event) => {
+    event.preventDefault()
     if (persons.filter((person) => person.name === newName).length > 0) {
       window.alert(`${newName} is already added to phonebook`)
       return
