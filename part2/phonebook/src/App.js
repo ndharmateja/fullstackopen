@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import Numbers from './components/Numbers'
 import PersonForm from './components/PersonForm'
 import personsService from './services/persons'
@@ -11,6 +12,10 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterString, setFilterString] = useState('')
+  const [notification, setNotification] = useState({
+    message: null,
+    isError: null,
+  })
 
   useEffect(() => {
     getPersons().then(setPersons)
@@ -21,7 +26,6 @@ const App = () => {
 
     const personWithSameName = persons.find((person) => person.name === newName)
 
-    console.log('person with same name:', personWithSameName)
     if (personWithSameName) {
       if (
         window.confirm(
@@ -47,6 +51,11 @@ const App = () => {
       const newPerson = { name: newName, number: newNumber }
       addPerson(newPerson).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson))
+        setNotification({ message: `Added ${newName}`, isError: false })
+        setTimeout(
+          () => setNotification({ message: null, isError: null }),
+          5000
+        )
         setNewName('')
         setNewNumber('')
       })
@@ -70,6 +79,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification notification={notification} />
 
       <Filter filterString={filterString} setFilterString={setFilterString} />
 
