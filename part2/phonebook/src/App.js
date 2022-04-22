@@ -21,6 +21,14 @@ const App = () => {
     getPersons().then(setPersons)
   }, [])
 
+  const showNotification = (message, isError) => {
+    setNotification({
+      message: message,
+      isError: isError,
+    })
+    setTimeout(() => setNotification({ message: null, isError: null }), 5000)
+  }
+
   const addNewName = (event) => {
     event.preventDefault()
 
@@ -35,27 +43,33 @@ const App = () => {
         updatePerson(personWithSameName.id, {
           ...personWithSameName,
           number: newNumber,
-        }).then((returnedPerson) => {
-          setPersons(
-            persons.map((person) => {
-              return person.id === personWithSameName.id
-                ? returnedPerson
-                : person
-            })
-          )
-          setNewName('')
-          setNewNumber('')
         })
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) => {
+                return person.id === personWithSameName.id
+                  ? returnedPerson
+                  : person
+              })
+            )
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch((error) => {
+            showNotification(
+              `Information of '${newName}' has already been removed from the server`,
+              true
+            )
+            setPersons(
+              persons.filter((person) => person.id !== personWithSameName.id)
+            )
+          })
       }
     } else {
       const newPerson = { name: newName, number: newNumber }
       addPerson(newPerson).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson))
-        setNotification({ message: `Added ${newName}`, isError: false })
-        setTimeout(
-          () => setNotification({ message: null, isError: null }),
-          5000
-        )
+        showNotification(`Added '${newName}'`, false)
         setNewName('')
         setNewNumber('')
       })
@@ -70,9 +84,19 @@ const App = () => {
 
   const deletePersonFn = (personToDelete) => {
     if (window.confirm(`Delete ${personToDelete.name}?`)) {
-      deletePerson(personToDelete.id).then(() =>
-        console.log('Deleted', personToDelete)
-      )
+      deletePerson(personToDelete.id)
+        .then(() => {
+          console.log('Deleted', personToDelete)
+        })
+        .catch((error) => {
+          showNotification(
+            `Information of '${personToDelete.name}' has already been removed from the server`,
+            true
+          )
+          setPersons(
+            persons.filter((person) => person.id !== personToDelete.id)
+          )
+        })
     }
   }
 
