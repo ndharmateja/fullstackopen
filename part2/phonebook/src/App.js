@@ -4,7 +4,7 @@ import Numbers from './components/Numbers'
 import PersonForm from './components/PersonForm'
 import personsService from './services/persons'
 
-const { getPersons, addPerson } = personsService
+const { getPersons, addPerson, deletePerson } = personsService
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -37,6 +37,14 @@ const App = () => {
       person.number.toLowerCase().includes(filterString.toLowerCase())
   )
 
+  const deletePersonFn = (personToDelete) => {
+    if (window.confirm(`Delete ${personToDelete.name}?`)) {
+      deletePerson(personToDelete.id).then(() =>
+        console.log('Deleted', personToDelete)
+      )
+    }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -53,7 +61,7 @@ const App = () => {
       />
 
       <h3>Numbers</h3>
-      <Numbers persons={personsToShow} />
+      <Numbers persons={personsToShow} deletePersonFn={deletePersonFn} />
     </div>
   )
 }
