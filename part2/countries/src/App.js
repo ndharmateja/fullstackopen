@@ -4,17 +4,17 @@ import axios from 'axios'
 const apiKey = process.env.REACT_APP_OPEN_WEATHER_API_KEY
 
 const Weather = ({ latlng }) => {
-  const [lat, lng] = latlng
   const [weather, setWeather] = useState(undefined)
 
   useEffect(() => {
+    const [lat, lng] = latlng
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=${apiKey}&units=metric`
       )
       .then((response) => setWeather(response.data))
       .catch(console.log)
-  }, [])
+  })
 
   if (typeof weather === 'undefined') return <div></div>
 
@@ -56,16 +56,14 @@ const Country = ({ country }) => {
   )
 }
 
-const Countries = ({ countries, countryNameSelected }) => {
-  const [selectedCountryName, setSelectedCountryName] =
-    useState(countryNameSelected)
-
+const Countries = ({
+  countries,
+  countryNameSelected,
+  setCountryNameSelected,
+}) => {
   const handleButtonClick = (countryName) => {
-    setSelectedCountryName(countryName)
+    setCountryNameSelected(countryName)
   }
-  console.log(countries.length)
-  console.log('Countries component')
-  console.log('selected country', selectedCountryName, '\n')
 
   if (countries.length === 0) {
     return <div>No countries</div>
@@ -75,9 +73,9 @@ const Countries = ({ countries, countryNameSelected }) => {
     const country = countries[0]
     return <Country country={country} />
   } else if (countries.length > 1) {
-    if (selectedCountryName.length !== 0) {
+    if (countryNameSelected.length !== 0) {
       const country = countries.find(
-        (country) => country.name.common === selectedCountryName
+        (country) => country.name.common === countryNameSelected
       )
       return <Country country={country} />
     } else
@@ -131,6 +129,7 @@ const App = () => {
       <Countries
         countries={countriesToShow}
         countryNameSelected={countryNameSelected}
+        setCountryNameSelected={setCountryNameSelected}
       />
     </>
   )
