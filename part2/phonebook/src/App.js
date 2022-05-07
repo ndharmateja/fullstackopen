@@ -108,7 +108,7 @@ const App = () => {
 
       <Filter filterString={filterString} setFilterString={setFilterString} />
 
-      <h3>add a new</h3>
+      <h3>Add a new</h3>
       <PersonForm
         newName={newName}
         setNewName={setNewName}
