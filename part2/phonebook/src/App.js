@@ -21,6 +21,12 @@ const App = () => {
     getPersons().then(setPersons)
   }, [])
 
+  const handleError = (error) => {
+    const errorMessage = error.response.data.error
+    console.log(typeof errorMessage)
+    showNotification(errorMessage, true)
+  }
+
   const showNotification = (message, isError) => {
     setNotification({
       message: message,
@@ -67,12 +73,14 @@ const App = () => {
       }
     } else {
       const newPerson = { name: newName, number: newNumber }
-      addPerson(newPerson).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson))
-        showNotification(`Added '${newName}'`, false)
-        setNewName('')
-        setNewNumber('')
-      })
+      addPerson(newPerson)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson))
+          showNotification(`Added '${newName}'`, false)
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch(handleError)
     }
   }
 
