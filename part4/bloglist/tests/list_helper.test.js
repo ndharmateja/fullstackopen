@@ -102,7 +102,6 @@ describe('favoriteBlog', () => {
 })
 
 describe('mostBlogs', () => {
-  console.log(listHelper.mostBlogs(listWithOneBlog))
   test('when list has only one blog, equals that author and count 1', () => {
     expect(listHelper.mostBlogs(listWithOneBlog)).toEqual({
       author: listWithOneBlog[0].author,
@@ -118,6 +117,26 @@ describe('mostBlogs', () => {
     expect(listHelper.mostBlogs(blogs)).toEqual({
       author: 'Robert C. Martin',
       blogs: 3,
+    })
+  })
+})
+
+describe('mostLikes', () => {
+  test('when list has only one blog, equals that author and count likes', () => {
+    expect(listHelper.mostLikes(listWithOneBlog)).toEqual({
+      author: listWithOneBlog[0].author,
+      likes: listWithOneBlog[0].likes,
+    })
+  })
+
+  test('when list has only no blogs, equals undefined', () => {
+    expect(listHelper.mostLikes([])).toEqual(undefined)
+  })
+
+  test('when list has many blogs', () => {
+    expect(listHelper.mostLikes(blogs)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 17,
     })
   })
 })

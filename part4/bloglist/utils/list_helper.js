@@ -30,4 +30,24 @@ const mostBlogs = (blogs) => {
   return result
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) return undefined
+
+  const counts = {}
+  for (const blog of blogs) {
+    const { author, likes } = blog
+    counts[author] = counts[author] ? counts[author] + likes : likes
+  }
+
+  const result = { author: '', likes: Number.MIN_VALUE }
+  for (const author in counts) {
+    if (counts[author] > result.likes) {
+      result.author = author
+      result.likes = counts[author]
+    }
+  }
+
+  return result
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes }
