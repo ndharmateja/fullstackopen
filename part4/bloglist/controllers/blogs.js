@@ -17,7 +17,7 @@ const createBlog = async (request, response) => {
 const deleteBlog = async (request, response) => {
   const { id } = request.params
   await Blog.findByIdAndRemove(id)
-  return response.send(204).end()
+  return response.status(204).end()
 }
 
 const updateBlog = async (request, response) => {
