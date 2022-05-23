@@ -112,3 +112,14 @@ test('check failed creation of blogs with no title or url', async () => {
   const blogs = await blogsInDb()
   expect(blogs.length).toBe(initialBlogs.length)
 })
+
+test('check delete blog', async () => {
+  const blogs = await blogsInDb()
+  const blogToDelete = blogs[0]
+  const response = await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+  console.log(JSON.stringify(response, null, 2))
+
+  const blogsAfter = await blogsInDb()
+  expect(blogsAfter.length).toBe(initialBlogs.length - 1)
+  expect(blogsAfter.map((blog) => blog.id)).not.toContain(blogToDelete.id)
+})
