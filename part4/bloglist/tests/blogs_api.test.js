@@ -34,3 +34,28 @@ test('check id property of each blog', async () => {
 
   blogs.forEach((blog) => expect(blog.id).toBeDefined())
 })
+
+test('check create new blog', async () => {
+  // Create new blog
+  const newBlog = {
+    title: 'New test blog',
+    author: 'Tony Stark',
+    url: 'https://google.com',
+    likes: 33,
+  }
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  const savedBlog = response.body
+
+  // Test the returned response of the post request
+  expect(savedBlog.id).toBeDefined()
+  expect(savedBlog.title).toBe(newBlog.title)
+
+  // Check the state of the DB after the new blog is created
+  const blogs = await blogsInDb()
+  expect(blogs.length).toBe(initialBlogs.length + 1)
+  expect(blogs.map((blog) => blog.title)).toContain(newBlog.title)
+})
