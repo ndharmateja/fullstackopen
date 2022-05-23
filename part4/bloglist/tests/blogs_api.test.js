@@ -117,9 +117,31 @@ test('check delete blog', async () => {
   const blogs = await blogsInDb()
   const blogToDelete = blogs[0]
   const response = await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
-  console.log(JSON.stringify(response, null, 2))
 
   const blogsAfter = await blogsInDb()
   expect(blogsAfter.length).toBe(initialBlogs.length - 1)
   expect(blogsAfter.map((blog) => blog.id)).not.toContain(blogToDelete.id)
+})
+
+test('check update blog', async () => {
+  const blogs = await blogsInDb()
+  const blogToUpdate = blogs[0]
+  const likes = 12345
+  const url = 'new_url'
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send({ likes, url })
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+  expect(response.body.likes).toBe(likes)
+  expect(response.body.url).toBe(url)
+
+  const blogsAfter = await blogsInDb()
+  expect(blogsAfter.length).toBe(initialBlogs.length)
+
+  const updatedBlog = blogsAfter.find((blog) => blog.id === blogToUpdate.id)
+  expect(updatedBlog.likes).toBe(likes)
+  expect(updatedBlog.url).toBe(url)
+  expect(updatedBlog.title).toBe(blogToUpdate.title)
+  expect(updatedBlog.author).toBe(blogToUpdate.author)
 })
