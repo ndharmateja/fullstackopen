@@ -59,3 +59,26 @@ test('check create new blog', async () => {
   expect(blogs.length).toBe(initialBlogs.length + 1)
   expect(blogs.map((blog) => blog.title)).toContain(newBlog.title)
 })
+
+test('check whether default value of likes is 0', async () => {
+  // Create new blog without 'likes'
+  const newBlog = {
+    title: 'New test blog',
+    author: 'Tony Stark',
+    url: 'https://google.com',
+  }
+  const response = await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  const savedBlog = response.body
+  const savedBlogId = savedBlog.id
+
+  // Test the returned response of the post request
+  expect(savedBlog.likes).toBe(0)
+
+  // Check the blog with the above id has 0 likes
+  const blogs = await blogsInDb()
+  expect(blogs.find((blog) => blog.id).likes).toBe(0)
+})
