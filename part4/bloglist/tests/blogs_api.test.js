@@ -1,6 +1,6 @@
 const supertest = require('supertest')
 const app = require('../app')
-const { initialBlogs } = require('./helper')
+const { initialBlogs, blogsInDb } = require('./helper')
 const Blog = require('../models/blog')
 
 const api = supertest(app)
@@ -23,8 +23,14 @@ test('check number of blogs returned', async () => {
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/)
-
   const blogs = response.body
+
   expect(blogs).toHaveLength(initialBlogs.length)
   expect(blogs.map((blog) => blog.title)).toContainEqual(initialBlogs[0].title)
+})
+
+test('check id property of each blog', async () => {
+  const blogs = await blogsInDb()
+
+  blogs.forEach((blog) => expect(blog.id).toBeDefined())
 })
