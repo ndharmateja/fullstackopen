@@ -1,7 +1,10 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
-const getUsers = async (request, response) => {}
+const getUsers = async (request, response) => {
+  const users = await User.find({})
+  return response.json(users)
+}
 
 const createUser = async (request, response) => {
   const { username, name, password } = request.body
