@@ -80,5 +80,6 @@ test('check whether default value of likes is 0', async () => {
 
   // Check the blog with the above id has 0 likes
   const blogs = await blogsInDb()
-  expect(blogs.find((blog) => blog.id).likes).toBe(0)
+  const blogWithSavedId = blogs.find((blog) => blog.id === savedBlogId)
+  expect(blogWithSavedId.likes).toBe(0)
 })
