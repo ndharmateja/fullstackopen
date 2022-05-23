@@ -83,3 +83,32 @@ test('check whether default value of likes is 0', async () => {
   const blogWithSavedId = blogs.find((blog) => blog.id === savedBlogId)
   expect(blogWithSavedId.likes).toBe(0)
 })
+
+test('check failed creation of blogs with no title or url', async () => {
+  // Create new blog without 'title'
+  let newBlog = {
+    author: 'Tony Stark',
+    url: 'https://google.com',
+    likes: 35,
+  }
+  const response = await api.post('/api/blogs').send(newBlog).expect(400)
+
+  // Create new blog without 'url'
+  newBlog = {
+    title: 'The future is now',
+    author: 'Tony Stark',
+    likes: 35,
+  }
+  await api.post('/api/blogs').send(newBlog).expect(400)
+
+  // Create new blog without 'title' and 'url'
+  newBlog = {
+    author: 'Tony Stark',
+    likes: 35,
+  }
+  await api.post('/api/blogs').send(newBlog).expect(400)
+
+  // Check no new blog documents were created
+  const blogs = await blogsInDb()
+  expect(blogs.length).toBe(initialBlogs.length)
+})
