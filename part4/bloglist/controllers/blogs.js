@@ -8,17 +8,9 @@ const getBlogs = async (request, response) => {
   response.json(blogs)
 }
 
-const extractToken = (request) => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-    return authorization.substring(7)
-  }
-  return null
-}
-
 const createBlog = async (request, response) => {
   const { title, author, url, likes } = request.body
-  const token = extractToken(request)
+  const { token } = request
 
   const { id: callerId } = jwt.verify(token, process.env.SECRET)
   if (!callerId) {
