@@ -15,6 +15,13 @@ const createUser = async (request, response) => {
       .json({ error: "'password' field should not be empty" })
   }
 
+  const existingUser = await User.findOne({ username })
+  if (existingUser) {
+    return response
+      .status(400)
+      .json({ error: "User with 'username' already exists" })
+  }
+
   const passwordHash = await bcrypt.hash(password, 10)
 
   const user = new User({ username, name, passwordHash })
