@@ -42,4 +42,27 @@ test('test create user', async () => {
   expect(dbUsers.map((user) => user.username)).toContain(newUser.username)
 })
 
-test('get all users', async () => {})
+test('test invalid user creations', async () => {
+  let newUser = {
+    username: 'username',
+    name: 'name',
+  }
+  let response = await api.post('/api/users').send(newUser).expect(400)
+  expect(response.body.error).toBeDefined()
+
+  newUser = {
+    password: 'password',
+    name: 'name',
+  }
+  response = await api.post('/api/users').send(newUser).expect(400)
+  expect(response.body.error).toBeDefined()
+
+  newUser = {
+    name: 'name',
+  }
+  response = await api.post('/api/users').send(newUser).expect(400)
+  expect(response.body.error).toBeDefined()
+
+  const dbUsers = await usersInDb()
+  expect(dbUsers.length).toBe(initialUsers.length)
+})
