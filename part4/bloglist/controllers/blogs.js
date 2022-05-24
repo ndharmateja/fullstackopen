@@ -10,9 +10,8 @@ const getBlogs = async (request, response) => {
 
 const createBlog = async (request, response) => {
   const { title, author, url, likes } = request.body
-  const { token } = request
 
-  const { id: callerId } = jwt.verify(token, process.env.SECRET)
+  const { id: callerId } = request.user
   if (!callerId) {
     return response.status(401).send({ error: 'Invalid token' })
   }
@@ -32,9 +31,8 @@ const createBlog = async (request, response) => {
 
 const deleteBlog = async (request, response) => {
   const { id: blogId } = request.params
-  const { token } = request
 
-  const { id: callerId } = jwt.verify(token, process.env.SECRET)
+  const { id: callerId } = request.user
   if (!callerId) {
     return response.status(401).send({ error: 'Invalid token' })
   }
