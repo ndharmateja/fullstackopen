@@ -2,6 +2,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const User = require('../models/user')
 const { initialUsers, usersInDb } = require('./helper')
+const bcrypt = require('bcrypt')
 
 const api = supertest(app)
 const CONTENT_TYPE = 'Content-Type'
@@ -65,4 +66,57 @@ test('test invalid user creations', async () => {
 
   const dbUsers = await usersInDb()
   expect(dbUsers.length).toBe(initialUsers.length)
+})
+
+describe('user creation', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  })
+
+  test('fails if username is too short', async () => {
+    const newUser = {
+      username: 'mo',
+      pasword: 'sekred',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('fails if password is too short', async () => {
+    const newUser = {
+      username: 'kalle',
+      pasword: 'p',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+  })
+
+  test('creation fails with proper statuscode and message if username already taken', async () => {
+    const newUser = {
+      username: 'root',
+      name: 'Superuser',
+      password: 'salainen',
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('username must be unique')
+  })
 })
