@@ -17,9 +17,7 @@ const createUser = async (request, response) => {
 
   const existingUser = await User.findOne({ username })
   if (existingUser) {
-    return response
-      .status(400)
-      .json({ error: "User with 'username' already exists" })
+    return response.status(400).json({ error: 'username must be unique' })
   }
 
   const passwordHash = await bcrypt.hash(password, 10)
