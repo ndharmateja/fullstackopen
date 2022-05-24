@@ -9,6 +9,12 @@ const getUsers = async (request, response) => {
 const createUser = async (request, response) => {
   const { username, name, password } = request.body
 
+  if (!password) {
+    return response
+      .status(400)
+      .json({ error: "'password' field should not be empty" })
+  }
+
   const passwordHash = await bcrypt.hash(password, 10)
 
   const user = new User({ username, name, passwordHash })
