@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const getBlogs = async (request, response) => {
   const blogs = await Blog.find({})
@@ -8,7 +9,14 @@ const getBlogs = async (request, response) => {
 const createBlog = async (request, response) => {
   const { title, author, url, likes } = request.body
 
-  const blog = new Blog({ title, author, url, likes: likes || 0 })
+  const someUser = await User.findOne({})
+  const blog = new Blog({
+    title,
+    author,
+    url,
+    likes: likes || 0,
+    user: someUser._id,
+  })
 
   const savedBlog = await blog.save()
   response.status(201).json(savedBlog)
