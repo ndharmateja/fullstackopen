@@ -31,8 +31,22 @@ const createBlog = async (request, response) => {
 }
 
 const deleteBlog = async (request, response) => {
-  const { id } = request.params
-  await Blog.findByIdAndRemove(id)
+  const { id: blogId } = request.params
+  const { token } = request
+
+  const { id: callerId } = jwt.verify(token, process.env.SECRET)
+  if (!callerId) {
+    return response.status(401).send({ error: 'Invalid token' })
+  }
+
+  const blog = await Blog.findById(blogId)
+  if (blog.user.toString() !== callerId) {
+    return response
+      .status(401)
+      .json({ error: 'You are unauthorized to delete this blog' })
+  }
+
+  await Blog.findByIdAndRemove(blogId)
   return response.status(204).end()
 }
 
