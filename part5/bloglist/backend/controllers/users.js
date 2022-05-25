@@ -2,12 +2,7 @@ const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
 const getUsers = async (request, response) => {
-  const users = await User.find({}).populate('blogs', {
-    author: 1,
-    url: 1,
-    likes: 1,
-    title: 1,
-  })
+  const users = await User.find({}).populate('blogs')
   return response.json(users)
 }
 
