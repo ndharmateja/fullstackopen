@@ -19,6 +19,9 @@ const Blogs = ({ blogs, user, handleLogout, handleCreate }) => {
         onSubmit={async (e) => {
           e.preventDefault()
           await handleCreate({ title, author, url })
+          setTitle('')
+          setAuthor('')
+          setUrl('')
         }}
       >
         {/* title */}
