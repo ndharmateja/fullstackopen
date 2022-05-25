@@ -25,6 +25,7 @@ const App = () => {
       window.localStorage.setItem(LOGGED_BLOGAPP_USER, JSON.stringify(user))
       setUsername('')
       setPassword('')
+      blogService.setToken(user.token)
       setUser(user)
     } catch (err) {
       setError('Invalid credentials')
@@ -37,13 +38,20 @@ const App = () => {
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem(LOGGED_BLOGAPP_USER)
     if (loggedInUser) {
-      setUser(JSON.parse(loggedInUser))
+      const user = JSON.parse(loggedInUser)
+      setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
   const handleLogout = (e) => {
     window.localStorage.removeItem(LOGGED_BLOGAPP_USER)
     setUser(null)
+  }
+
+  const handleCreate = async ({ title, author, url }) => {
+    const savedBlog = await blogService.createBlog({ title, author, url })
+    setBlogs(blogs.concat(savedBlog))
   }
 
   return (
@@ -54,7 +62,7 @@ const App = () => {
           {...{ handleLogin, username, setUsername, password, setPassword }}
         />
       )}
-      {user && <Blogs {...{ blogs, user, handleLogout }} />}
+      {user && <Blogs {...{ blogs, user, handleLogout, handleCreate }} />}
     </>
   )
 }
