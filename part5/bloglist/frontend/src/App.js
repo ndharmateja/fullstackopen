@@ -12,8 +12,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [error, setError] = useState(null)
   const [isCreateLoading, setIsCreateLoading] = useState(false)
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -29,10 +29,10 @@ const App = () => {
       blogService.setToken(user.token)
       setUser(user)
     } catch (err) {
-      setError('Invalid credentials')
+      setNotification({ message: 'wrong username or password', isError: true })
       setTimeout(() => {
-        setError(null)
-      }, 5000)
+        setNotification(null)
+      }, 3000)
     }
   }
 
@@ -59,15 +59,29 @@ const App = () => {
 
   return (
     <>
-      {error && <p>Error: {error}</p>}
       {!user && (
         <LoginForm
-          {...{ handleLogin, username, setUsername, password, setPassword }}
+          {...{
+            handleLogin,
+            username,
+            setUsername,
+            password,
+            setPassword,
+            notification,
+          }}
         />
       )}
       {user && (
         <Blogs
-          {...{ blogs, user, handleLogout, handleCreate, isCreateLoading }}
+          {...{
+            blogs,
+            user,
+            handleLogout,
+            handleCreate,
+            isCreateLoading,
+            notification,
+            setNotification,
+          }}
         />
       )}
     </>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Blog from './Blog'
+import Notification from './Notification'
 
 const Blogs = ({
   blogs,
@@ -7,6 +8,8 @@ const Blogs = ({
   handleLogout,
   handleCreate,
   isCreateLoading,
+  notification,
+  setNotification,
 }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -15,6 +18,7 @@ const Blogs = ({
   return (
     <div>
       <h2>blogs</h2>
+      <Notification notification={notification} />
       <div className=''>
         <span>{user.name} logged in</span>
         <button onClick={handleLogout}>logout</button>
@@ -25,6 +29,13 @@ const Blogs = ({
         onSubmit={async (e) => {
           e.preventDefault()
           await handleCreate({ title, author, url })
+          setNotification({
+            message: `a new blog "${title}" by "${author}" added`,
+            isError: false,
+          })
+          setTimeout(() => {
+            setNotification(null)
+          }, 3000)
           setTitle('')
           setAuthor('')
           setUrl('')
