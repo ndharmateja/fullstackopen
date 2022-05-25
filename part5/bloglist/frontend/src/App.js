@@ -4,6 +4,8 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
@@ -20,11 +22,11 @@ const App = () => {
     e.preventDefault()
     try {
       const user = await loginService.login({ username, password })
+      window.localStorage.setItem(LOGGED_BLOGAPP_USER, JSON.stringify(user))
       setUsername('')
       setPassword('')
       setUser(user)
-    } catch (e) {
-      console.log('error', JSON.stringify(e, null, 2))
+    } catch (err) {
       setError('Invalid credentials')
       setTimeout(() => {
         setError(null)
@@ -32,6 +34,12 @@ const App = () => {
     }
   }
 
+  useEffect(() => {
+    const loggedInUser = window.localStorage.getItem(LOGGED_BLOGAPP_USER)
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser))
+    }
+  }, [])
 
   const handleLogout = (e) => {
     window.localStorage.removeItem(LOGGED_BLOGAPP_USER)
@@ -46,7 +54,7 @@ const App = () => {
           {...{ handleLogin, username, setUsername, password, setPassword }}
         />
       )}
-      {user && <Blogs blogs={blogs} user={user} />}
+      {user && <Blogs {...{ blogs, user, handleLogout }} />}
     </>
   )
 }
