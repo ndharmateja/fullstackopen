@@ -1,23 +1,47 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import Blogs from './components/Blog'
+import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
+import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+  const [error, setError] = useState(null)
+
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    try {
+      const user = await loginService.login({ username, password })
+      setUsername('')
+      setPassword('')
+      setUser(user)
+    } catch (e) {
+      console.log('error', JSON.stringify(e, null, 2))
+      setError('Invalid credentials')
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
+    }
+  }
+
   return (
-    <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+    <>
+      {error && <p>Error: {error}</p>}
+      {!user && (
+        <LoginForm
+          {...{ handleLogin, username, setUsername, password, setPassword }}
+        />
       )}
-    </div>
+      {user && <Blogs blogs={blogs} />}
+    </>
   )
 }
 
