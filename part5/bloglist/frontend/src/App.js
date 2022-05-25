@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Blogs from './components/Blog'
+import Blogs from './components/Blogs'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -40,7 +40,7 @@ const App = () => {
           {...{ handleLogin, username, setUsername, password, setPassword }}
         />
       )}
-      {user && <Blogs blogs={blogs} />}
+      {user && <Blogs blogs={blogs} user={user} />}
     </>
   )
 }
