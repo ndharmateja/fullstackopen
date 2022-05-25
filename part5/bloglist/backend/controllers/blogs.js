@@ -26,6 +26,9 @@ const createBlog = async (request, response) => {
   })
 
   const savedBlog = await blog.save()
+  callerUser.blogs = callerUser.blogs.concat(savedBlog._id)
+  await callerUser.save()
+
   response.status(201).json(savedBlog)
 }
 
