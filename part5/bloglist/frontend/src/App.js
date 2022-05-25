@@ -13,6 +13,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [error, setError] = useState(null)
+  const [isCreateLoading, setIsCreateLoading] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -50,7 +51,9 @@ const App = () => {
   }
 
   const handleCreate = async ({ title, author, url }) => {
+    setIsCreateLoading(true)
     const savedBlog = await blogService.createBlog({ title, author, url })
+    setIsCreateLoading(false)
     setBlogs(blogs.concat(savedBlog))
   }
 
@@ -62,7 +65,11 @@ const App = () => {
           {...{ handleLogin, username, setUsername, password, setPassword }}
         />
       )}
-      {user && <Blogs {...{ blogs, user, handleLogout, handleCreate }} />}
+      {user && (
+        <Blogs
+          {...{ blogs, user, handleLogout, handleCreate, isCreateLoading }}
+        />
+      )}
     </>
   )
 }

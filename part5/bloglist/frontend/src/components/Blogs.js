@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import Blog from './Blog'
 
-const Blogs = ({ blogs, user, handleLogout, handleCreate }) => {
+const Blogs = ({
+  blogs,
+  user,
+  handleLogout,
+  handleCreate,
+  isCreateLoading,
+}) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -57,7 +63,9 @@ const Blogs = ({ blogs, user, handleLogout, handleCreate }) => {
         />
         <br />
 
-        <button type='submit'>create</button>
+        <button type='submit' disabled={isCreateLoading}>
+          {isCreateLoading ? 'loading..' : 'create'}
+        </button>
       </form>
 
       <div>
