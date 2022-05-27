@@ -15,12 +15,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [isCreateLoading, setIsCreateLoading] = useState(false)
   const [notification, setNotification] = useState(null)
-
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -58,9 +53,7 @@ const App = () => {
   }
 
   const handleCreate = async ({ title, author, url }) => {
-    setIsCreateLoading(true)
     const savedBlog = await blogService.createBlog({ title, author, url })
-    setIsCreateLoading(false)
     setBlogs(blogs.concat(savedBlog))
   }
 
@@ -91,14 +84,7 @@ const App = () => {
             <BlogForm
               {...{
                 handleCreate,
-                title,
-                author,
-                url,
                 setNotification,
-                setTitle,
-                setAuthor,
-                setUrl,
-                isCreateLoading,
               }}
             />
           </Togglable>

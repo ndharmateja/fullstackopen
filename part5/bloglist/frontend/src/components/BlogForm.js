@@ -1,35 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const BlogForm = ({
-  handleCreate,
-  title,
-  author,
-  url,
-  setNotification,
-  setTitle,
-  setAuthor,
-  setUrl,
-  isCreateLoading,
-}) => {
+const BlogForm = ({ handleCreate, setNotification }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
+  const addBlog = async (e) => {
+    e.preventDefault()
+    await handleCreate({ title, author, url })
+    setNotification({
+      message: `a new blog "${title}" by "${author}" added`,
+      isError: false,
+    })
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
   return (
     <>
       <h2>create new</h2>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault()
-          await handleCreate({ title, author, url })
-          setNotification({
-            message: `a new blog "${title}" by "${author}" added`,
-            isError: false,
-          })
-          setTimeout(() => {
-            setNotification(null)
-          }, 3000)
-          setTitle('')
-          setAuthor('')
-          setUrl('')
-        }}
-      >
+      <form onSubmit={addBlog}>
         {/* title */}
         <label htmlFor='title'>title:</label>
         <input
@@ -63,9 +56,7 @@ const BlogForm = ({
         />
         <br />
 
-        <button type='submit' disabled={isCreateLoading}>
-          {isCreateLoading ? 'loading..' : 'create'}
-        </button>
+        <button type='submit'>Create</button>
       </form>
     </>
   )
