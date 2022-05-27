@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
-import Blogs from './components/Blogs'
+import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -14,6 +16,10 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [isCreateLoading, setIsCreateLoading] = useState(false)
   const [notification, setNotification] = useState(null)
+
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
@@ -72,17 +78,33 @@ const App = () => {
         />
       )}
       {user && (
-        <Blogs
-          {...{
-            blogs,
-            user,
-            handleLogout,
-            handleCreate,
-            isCreateLoading,
-            notification,
-            setNotification,
-          }}
-        />
+        <div>
+          <h2>blogs</h2>
+          <Notification notification={notification} />
+          <div className=''>
+            <span>{user.name} logged in</span>
+            <button onClick={handleLogout}>logout</button>
+          </div>
+          <br />
+            <BlogForm
+              {...{
+                handleCreate,
+                title,
+                author,
+                url,
+                setNotification,
+                setTitle,
+                setAuthor,
+                setUrl,
+                isCreateLoading,
+              }}
+            />
+          <div>
+            {blogs.map((blog) => (
+              <Blog key={blog.id} blog={blog} />
+            ))}
+          </div>
+        </div>
       )}
     </>
   )
