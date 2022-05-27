@@ -13,7 +13,6 @@ const Blog = ({ blog }) => {
 
   const toggleShowFull = () => setShowFull((oldShowFull) => !oldShowFull)
 
-  console.log(JSON.stringify(blog, null, 2))
   return (
     <div style={blogStyle}>
       <div>
