@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -86,6 +87,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </div>
           <br />
+          <Togglable buttonLabel='New Note'>
             <BlogForm
               {...{
                 handleCreate,
@@ -99,6 +101,8 @@ const App = () => {
                 isCreateLoading,
               }}
             />
+          </Togglable>
+
           <div>
             {blogs.map((blog) => (
               <Blog key={blog.id} blog={blog} />
