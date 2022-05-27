@@ -8,12 +8,12 @@ const loginUser = async (request, response) => {
 
   const user = await User.findOne({ username })
   if (!user) {
-    return response.status(400).json({ error: 'invalid username' })
+    return response.status(400).json({ error: 'Invalid username' })
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.passwordHash)
   if (!isPasswordCorrect) {
-    return response.status(400).json({ error: 'invalid password' })
+    return response.status(400).json({ error: 'Invalid password' })
   }
 
   const userForToken = { username, id: user._id }
