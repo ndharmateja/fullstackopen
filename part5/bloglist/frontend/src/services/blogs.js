@@ -15,4 +15,14 @@ const createBlog = async ({ title, author, url }) => {
   return response.data
 }
 
-export default { getAll, createBlog, setToken }
+const updateBlog = async ({ title, author, url, likes }) => {
+  const config = { headers: { Authorization: token } }
+  const response = await axios.post(
+    baseUrl,
+    { title, author, url, likes },
+    config
+  )
+  return response.data
+}
+
+export default { getAll, createBlog, updateBlog, setToken }
