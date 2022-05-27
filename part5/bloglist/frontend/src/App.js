@@ -64,6 +64,29 @@ const App = () => {
     setBlogs(blogs.concat(savedBlog))
   }
 
+  const handleUpdate = async ({ id, title, author, url, likes }) => {
+    const updatedBlog = await blogService.updateBlog({
+      id,
+      title,
+      author,
+      url,
+      likes,
+    })
+    setBlogs((oldBlogs) => {
+      return oldBlogs.map((blog) => {
+        if (blog.id === updatedBlog.id) {
+          return {
+            ...blog,
+            title: updatedBlog.title,
+            url: updatedBlog.url,
+            likes: updatedBlog.likes,
+            author: updatedBlog.author,
+          }
+        }
+        return blog
+      })
+    })
+  }
   return (
     <>
       {!user && (
@@ -93,7 +116,7 @@ const App = () => {
 
           <div>
             {blogs.map((blog) => (
-              <Blog key={blog.id} blog={blog} />
+              <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} />
             ))}
           </div>
         </div>
