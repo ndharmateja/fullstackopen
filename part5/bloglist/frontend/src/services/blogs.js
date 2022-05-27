@@ -15,10 +15,10 @@ const createBlog = async ({ title, author, url }) => {
   return response.data
 }
 
-const updateBlog = async ({ title, author, url, likes }) => {
+const updateBlog = async ({ id, title, author, url, likes }) => {
   const config = { headers: { Authorization: token } }
-  const response = await axios.post(
-    baseUrl,
+  const response = await axios.put(
+    `${baseUrl}/${id}`,
     { title, author, url, likes },
     config
   )
