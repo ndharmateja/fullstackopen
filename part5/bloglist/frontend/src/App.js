@@ -54,6 +54,13 @@ const App = () => {
 
   const handleCreate = async ({ title, author, url }) => {
     const savedBlog = await blogService.createBlog({ title, author, url })
+    setNotification({
+      message: `a new blog "${title}" by "${author}" added`,
+      isError: false,
+    })
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
     setBlogs(blogs.concat(savedBlog))
   }
 
@@ -81,12 +88,7 @@ const App = () => {
           </div>
           <br />
           <Togglable buttonLabel='Create New Blog'>
-            <BlogForm
-              {...{
-                handleCreate,
-                setNotification,
-              }}
-            />
+            <BlogForm handleCreate={handleCreate} />
           </Togglable>
 
           <div>

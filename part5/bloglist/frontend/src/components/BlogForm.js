@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const BlogForm = ({ handleCreate, setNotification }) => {
+const BlogForm = ({ handleCreate }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -8,13 +8,6 @@ const BlogForm = ({ handleCreate, setNotification }) => {
   const addBlog = async (e) => {
     e.preventDefault()
     await handleCreate({ title, author, url })
-    setNotification({
-      message: `a new blog "${title}" by "${author}" added`,
-      isError: false,
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 3000)
     setTitle('')
     setAuthor('')
     setUrl('')
