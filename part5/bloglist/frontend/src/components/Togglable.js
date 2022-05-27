@@ -8,7 +8,7 @@ const Togglable = (props) => {
   return visible ? (
     <div>
       {props.children}
-      <button onClick={toggleVisibility}>cancel</button>
+      <button onClick={toggleVisibility}>Cancel</button>
     </div>
   ) : (
     <button onClick={toggleVisibility}>{props.buttonLabel}</button>
