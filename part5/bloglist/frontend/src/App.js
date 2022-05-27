@@ -80,7 +80,7 @@ const App = () => {
             <button onClick={handleLogout}>logout</button>
           </div>
           <br />
-          <Togglable buttonLabel='New Note'>
+          <Togglable buttonLabel='Create New Blog'>
             <BlogForm
               {...{
                 handleCreate,
