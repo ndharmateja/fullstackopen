@@ -35,7 +35,7 @@ const Blog = ({ blog, handleUpdate, handleDelete, username }) => {
     <div style={blogStyle}>
       <div>
         <span style={{ fontSize: '1.4em' }}>
-          "{blog.title}" - {blog.author}{' '}
+          &quot;{blog.title}&quot; - {blog.author}{' '}
         </span>
         <button style={{ float: 'right' }} onClick={toggleShowFull}>
           {showFull ? 'hide' : 'view'}

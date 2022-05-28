@@ -37,7 +37,7 @@ const App = () => {
     }
   }, [])
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     window.localStorage.removeItem(LOGGED_BLOGAPP_USER)
     setUser(null)
   }
