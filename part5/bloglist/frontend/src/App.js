@@ -66,7 +66,7 @@ const App = () => {
     setBlogs(newBlogs)
   }
 
-  const handleDelete = async ({ id }) => {
+  const handleDelete = async (id) => {
     await blogService.deleteBlog(id)
 
     const blogToDelete = blogs.find((blog) => blog.id === id)
