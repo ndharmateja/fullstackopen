@@ -12,8 +12,6 @@ const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
 
@@ -23,21 +21,11 @@ const App = () => {
     blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
-    try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem(LOGGED_BLOGAPP_USER, JSON.stringify(user))
-      setUsername('')
-      setPassword('')
-      blogService.setToken(user.token)
-      setUser(user)
-    } catch (err) {
-      setNotification({ message: 'wrong username or password', isError: true })
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
-    }
+  const handleLogin = async ({ username, password }) => {
+    const user = await loginService.login({ username, password })
+    window.localStorage.setItem(LOGGED_BLOGAPP_USER, JSON.stringify(user))
+    blogService.setToken(user.token)
+    setUser(user)
   }
 
   useEffect(() => {
@@ -112,14 +100,9 @@ const App = () => {
     <>
       {!user && (
         <LoginForm
-          {...{
-            handleLogin,
-            username,
-            setUsername,
-            password,
-            setPassword,
-            notification,
-          }}
+          handleLogin={handleLogin}
+          notification={notification}
+          setNotification={setNotification}
         />
       )}
       {user && (
