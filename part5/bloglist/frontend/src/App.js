@@ -53,7 +53,9 @@ const App = () => {
   }
 
   const handleCreate = async ({ title, author, url }) => {
-    const savedBlog = await blogService.createBlog({ title, author, url })
+    await blogService.createBlog({ title, author, url })
+    const newBlogs = await blogService.getAll()
+
     setNotification({
       message: `a new blog "${title}" by "${author}" added`,
       isError: false,
@@ -61,7 +63,7 @@ const App = () => {
     setTimeout(() => {
       setNotification(null)
     }, 3000)
-    setBlogs(blogs.concat(savedBlog))
+    setBlogs(newBlogs)
   }
 
   const handleDelete = async ({ id }) => {
