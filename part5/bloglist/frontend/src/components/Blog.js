@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, handleUpdate, handleDelete }) => {
+const Blog = ({ blog, handleUpdate, handleDelete, username }) => {
   const [showFull, setShowFull] = useState(false)
 
   const blogStyle = {
@@ -24,18 +24,23 @@ const Blog = ({ blog, handleUpdate, handleDelete }) => {
   }
 
   const deleteBlog = async () => {
-    await handleDelete(blog.id)
+    const confirm = window.confirm(
+      `Remove "${blog.title}" by "${blog.author}"?`
+    )
+    if (confirm) await handleDelete(blog.id)
   }
 
   return (
     <div style={blogStyle}>
       <div>
-        <span>
+        <span style={{ fontSize: '1.4em' }}>
           "{blog.title}" - {blog.author}{' '}
         </span>
         <button style={{ float: 'right' }} onClick={toggleShowFull}>
           {showFull ? 'hide' : 'view'}
         </button>
+        <br />
+        <br />
         {showFull && (
           <div>
             <span>
@@ -54,6 +59,11 @@ const Blog = ({ blog, handleUpdate, handleDelete }) => {
               <strong>Created by: </strong>
               {blog.user.name}
             </span>
+            {blog.user.username === username && (
+              <p>
+                <button onClick={deleteBlog}>remove</button>
+              </p>
+            )}
           </div>
         )}
       </div>
