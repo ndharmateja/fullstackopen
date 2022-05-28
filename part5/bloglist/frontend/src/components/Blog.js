@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, handleUpdate }) => {
+const Blog = ({ blog, handleUpdate, handleDelete }) => {
   const [showFull, setShowFull] = useState(false)
 
   const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
+    padding: 10,
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
@@ -24,22 +23,37 @@ const Blog = ({ blog, handleUpdate }) => {
     })
   }
 
+  const deleteBlog = async () => {
+    await handleDelete(blog.id)
+  }
+
   return (
     <div style={blogStyle}>
       <div>
         <span>
-          {blog.title} - {blog.author}
+          "{blog.title}" - {blog.author}{' '}
         </span>
-        <button onClick={toggleShowFull}>{showFull ? 'hide' : 'view'}</button>
+        <button style={{ float: 'right' }} onClick={toggleShowFull}>
+          {showFull ? 'hide' : 'view'}
+        </button>
         {showFull && (
           <div>
-            <span>{blog.url}</span>
-            <br />
             <span>
-              likes: {blog.likes} <button onClick={likeBlog}>like</button>
+              <strong>URL: </strong>
+              <a href={blog.url} target='_blank' rel='noreferrer'>
+                {blog.url}
+              </a>
             </span>
             <br />
-            <span>{blog.user.name}</span>
+            <span>
+              <strong>Likes: </strong>
+              {blog.likes} <button onClick={likeBlog}>like</button>
+            </span>
+            <br />
+            <span>
+              <strong>Created by: </strong>
+              {blog.user.name}
+            </span>
           </div>
         )}
       </div>

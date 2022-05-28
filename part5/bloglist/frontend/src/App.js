@@ -64,6 +64,20 @@ const App = () => {
     setBlogs(blogs.concat(savedBlog))
   }
 
+  const handleDelete = async ({ id }) => {
+    await blogService.deleteBlog(id)
+
+    const blogToDelete = blogs.find((blog) => blog.id === id)
+    setNotification({
+      message: `Blog "${blogToDelete.title}" by "${blogToDelete.author}" deleted`,
+      isError: false,
+    })
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000)
+    setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id))
+  }
+
   const handleUpdate = async ({ id, title, author, url, likes }) => {
     const updatedBlog = await blogService.updateBlog({
       id,
@@ -118,7 +132,12 @@ const App = () => {
 
           <div>
             {blogs.map((blog) => (
-              <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                handleUpdate={handleUpdate}
+                handleDelete={handleDelete}
+              />
             ))}
           </div>
         </div>
