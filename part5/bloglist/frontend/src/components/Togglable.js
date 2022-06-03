@@ -10,13 +10,19 @@ const Togglable = forwardRef((props, ref) => {
     return { toggleVisibility }
   })
 
-  return visible ? (
+  const hideWhenVisible = { display: visible ? 'none' : '' }
+  const showWhenVisible = { display: visible ? 'none' : '' }
+
+  return (
     <div>
-      {props.children}
-      <button onClick={toggleVisibility}>Cancel</button>
+      <div style={hideWhenVisible}>
+        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
+      </div>
+      <div style={showWhenVisible}>
+        {props.children}
+        <button onClick={toggleVisibility}>Cancel</button>
+      </div>
     </div>
-  ) : (
-    <button onClick={toggleVisibility}>{props.buttonLabel}</button>
   )
 })
 
