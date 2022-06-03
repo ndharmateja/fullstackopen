@@ -24,6 +24,7 @@ const BlogForm = ({ handleCreate }) => {
           id='title'
           name='title'
           value={title}
+          placeholder='Blog Title'
           onChange={({ target: { value } }) => setTitle(value)}
         />
         <br />
@@ -35,6 +36,7 @@ const BlogForm = ({ handleCreate }) => {
           id='author'
           name='author'
           value={author}
+          placeholder='Blog Author'
           onChange={({ target: { value } }) => setAuthor(value)}
         />
         <br />
@@ -46,6 +48,7 @@ const BlogForm = ({ handleCreate }) => {
           id='url'
           name='url'
           value={url}
+          placeholder='Blog Url'
           onChange={({ target: { value } }) => setUrl(value)}
         />
         <br />
