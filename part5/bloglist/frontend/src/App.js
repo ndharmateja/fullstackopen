@@ -125,7 +125,7 @@ const App = () => {
                 blog={blog}
                 handleUpdate={handleUpdate}
                 handleDelete={handleDelete}
-                username={user.username}
+                isCreatedByCurrentUser={blog.user.username === user.username}
               />
             ))}
           </div>

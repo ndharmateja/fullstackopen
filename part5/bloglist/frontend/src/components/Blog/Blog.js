@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import propTypes from 'prop-types'
 
-const Blog = ({ blog, handleUpdate, handleDelete, username }) => {
+const Blog = ({ blog, handleUpdate, handleDelete, isCreatedByCurrentUser }) => {
   const [showFull, setShowFull] = useState(false)
 
   const blogStyle = {
@@ -60,7 +60,7 @@ const Blog = ({ blog, handleUpdate, handleDelete, username }) => {
               <strong>Created by: </strong>
               {blog.user.name}
             </span>
-            {blog.user.username === username && (
+            {isCreatedByCurrentUser && (
               <p>
                 <button onClick={deleteBlog}>remove</button>
               </p>
@@ -76,7 +76,7 @@ Blog.propTypes = {
   blog: propTypes.object.isRequired,
   handleUpdate: propTypes.func.isRequired,
   handleDelete: propTypes.func.isRequired,
-  username: propTypes.string.isRequired,
+  isCreatedByCurrentUser: propTypes.bool.isRequired,
 }
 
 export default Blog
