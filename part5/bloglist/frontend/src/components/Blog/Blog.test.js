@@ -63,3 +63,33 @@ test('url and likes shown after clicking view', async () => {
   expect(blogDiv).toHaveTextContent(blog.likes)
 })
 
+test('like button clicked twice', async () => {
+  const blog = {
+    title: 'Some blog title',
+    author: 'some author',
+    url: 'some url',
+    likes: 23,
+    user: { name: 'Creator' },
+  }
+
+  const handleUpdate = jest.fn()
+  const handleDelete = jest.fn()
+  render(
+    <Blog
+      blog={blog}
+      isCreatedByCurrentUser={true}
+      handleDelete={handleDelete}
+      handleUpdate={handleUpdate}
+    />
+  )
+
+  const user = userEvent.setup()
+  const viewButton = screen.getByText('view')
+  await user.click(viewButton)
+
+  const likeButton = screen.getByText('like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(handleUpdate.mock.calls).toHaveLength(2)
+})
