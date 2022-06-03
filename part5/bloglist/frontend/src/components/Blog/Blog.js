@@ -32,42 +32,40 @@ const Blog = ({ blog, handleUpdate, handleDelete, isCreatedByCurrentUser }) => {
   }
 
   return (
-    <div style={blogStyle}>
-      <div>
-        <span style={{ fontSize: '1.4em' }}>
-          &quot;{blog.title}&quot; - {blog.author}{' '}
-        </span>
-        <button style={{ float: 'right' }} onClick={toggleShowFull}>
-          {showFull ? 'hide' : 'view'}
-        </button>
-        <br />
-        <br />
-        {showFull && (
-          <div>
-            <span>
-              <strong>URL: </strong>
-              <a href={blog.url} target='_blank' rel='noreferrer'>
-                {blog.url}
-              </a>
-            </span>
-            <br />
-            <span>
-              <strong>Likes: </strong>
-              {blog.likes} <button onClick={likeBlog}>like</button>
-            </span>
-            <br />
-            <span>
-              <strong>Created by: </strong>
-              {blog.user.name}
-            </span>
-            {isCreatedByCurrentUser && (
-              <p>
-                <button onClick={deleteBlog}>remove</button>
-              </p>
-            )}
-          </div>
-        )}
-      </div>
+    <div style={blogStyle} className='blog'>
+      <span style={{ fontSize: '1.4em' }}>
+        &quot;{blog.title}&quot; - {blog.author}{' '}
+      </span>
+      <button style={{ float: 'right' }} onClick={toggleShowFull}>
+        {showFull ? 'hide' : 'view'}
+      </button>
+      <br />
+      <br />
+      {showFull && (
+        <div>
+          <span>
+            <strong>URL: </strong>
+            <a href={blog.url} target='_blank' rel='noreferrer'>
+              {blog.url}
+            </a>
+          </span>
+          <br />
+          <span>
+            <strong>Likes: </strong>
+            {blog.likes} <button onClick={likeBlog}>like</button>
+          </span>
+          <br />
+          <span>
+            <strong>Created by: </strong>
+            {blog.user.name}
+          </span>
+          {isCreatedByCurrentUser && (
+            <p>
+              <button onClick={deleteBlog}>remove</button>
+            </p>
+          )}
+        </div>
+      )}
     </div>
   )
 }
