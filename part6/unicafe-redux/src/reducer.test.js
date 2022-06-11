@@ -78,7 +78,7 @@ describe('unicafe reducer', () => {
     newState = counterReducer(newState, { type: 'GOOD' })
     newState = counterReducer(newState, { type: 'BAD' })
     newState = counterReducer(newState, { type: 'OK' })
-    newState = counterReducer(state, action)
+    newState = counterReducer(newState, action)
     expect(newState).toEqual(initialState)
   })
 })
