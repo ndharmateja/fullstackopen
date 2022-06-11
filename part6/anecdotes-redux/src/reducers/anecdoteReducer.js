@@ -1,3 +1,6 @@
+const VOTE = 'VOTE'
+const CREATE_ANECDOTE = 'CREATE_ANECDOTE'
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -21,7 +24,10 @@ const initialState = anecdotesAtStart.map(asObject)
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'VOTE': {
+    case CREATE_ANECDOTE:
+      return [...state, action.data]
+
+    case VOTE:
       const id = action.data.id
       const anecdoteToChange = state.find((a) => a.id === id)
 
@@ -32,15 +38,20 @@ const reducer = (state = initialState, action) => {
       return state.map((anecdote) =>
         anecdote.id !== id ? anecdote : changedAnecdote
       )
-    }
+
     default:
       return state
   }
 }
 
 export const increaseVote = (id) => ({
-  type: 'VOTE',
+  type: VOTE,
   data: { id },
+})
+
+export const createAnecdote = (content) => ({
+  type: CREATE_ANECDOTE,
+  data: asObject(content),
 })
 
 export default reducer
