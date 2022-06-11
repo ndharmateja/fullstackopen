@@ -16,6 +16,7 @@ const App = () => {
     event.target.anecdote.value = ''
   }
 
+  anecdotes.sort((a1, a2) => a2.votes - a1.votes)
   return (
     <div>
       <h2>Anecdotes</h2>
