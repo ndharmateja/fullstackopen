@@ -44,10 +44,9 @@ describe('Blog app', function () {
   describe('When logged in', function () {
     beforeEach(function () {
       cy.login({ username: 'dharma', password: 'pass' })
-      cy.createBlog({ title: 'title1', author: 'author1', url: 'url1' })
     })
 
-    it.only('A blog can be created', function () {
+    it('A blog can be created', function () {
       cy.contains('Create New Blog').click()
       cy.get('#title').type('New title')
       cy.get('#author').type('New author')
@@ -65,6 +64,39 @@ describe('Blog app', function () {
 
       cy.get('#blogs').contains('"New title"')
       cy.get('#blogs').contains('New author')
+    })
+
+    describe('when there are multiple blogs', function () {
+      beforeEach(function () {
+        cy.createBlog({ title: 'title1', author: 'author1', url: 'url1' })
+        cy.createBlog({ title: 'title2', author: 'author2', url: 'url2' })
+        cy.createBlog({ title: 'title3', author: 'author3', url: 'url3' })
+      })
+
+      it.only('A blog can be liked', function () {
+        cy.get('#blogs').contains('title2').parent().as('theBlog')
+        cy.get('@theBlog').contains('view').click()
+        cy.get('@theBlog').contains('Likes').parent().as('likesSpan')
+
+        cy.get('@likesSpan').contains('like').as('likeButton')
+
+        cy.get('@likesSpan')
+          .find('span')
+          .invoke('text')
+          .then((text1) => {
+            cy.debug(text1)
+            cy.get('@likeButton').click()
+            cy.wait(1000)
+            cy.get('@likesSpan')
+              .find('span')
+              .invoke('text')
+              .then((text2) => {
+                const likesBefore = Number.parseInt(text1)
+                const likesAfter = Number.parseInt(text2)
+                expect(likesAfter).to.eq(likesBefore + 1)
+              })
+          })
+      })
     })
   })
 })
