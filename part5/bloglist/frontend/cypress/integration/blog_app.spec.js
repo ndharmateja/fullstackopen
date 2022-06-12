@@ -1,7 +1,7 @@
 describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    cy.request('POST', 'http://localhost:3003/api/users', {
+    cy.createUser({
       username: 'dharma',
       password: 'pass',
       name: 'Dharma',
@@ -66,6 +66,43 @@ describe('Blog app', function () {
       cy.get('#blogs').contains('New author')
     })
 
+    describe('Delete', function () {
+      beforeEach(function () {
+        cy.createBlog({
+          title: 'title (dharma)',
+          author: 'author (dharma)',
+          url: 'url (dharma)',
+        })
+
+        cy.createUser({
+          username: 'bindu',
+          password: 'pass',
+          name: 'Bindu',
+        })
+        cy.login({ username: 'bindu', password: 'pass' })
+        cy.createBlog({
+          title: 'title (bindu)',
+          author: 'author (bindu)',
+          url: 'url (bindu)',
+        })
+      })
+
+      it('user can delete their blog', function () {
+        cy.get('#blogs').contains('title (bindu)').parent().as('theBlog')
+        cy.get('@theBlog').contains('view').click()
+        cy.get('@theBlog').contains('remove').click()
+        cy.wait(500)
+
+        cy.get('#blogs').should('not.contain', 'title (bindu)')
+      })
+
+      it('user cannot delete blog of another person', function () {
+        cy.get('#blogs').contains('title (dharma)').parent().as('theBlog')
+        cy.get('@theBlog').contains('view').click()
+        cy.get('@theBlog').should('not.contain', 'remove')
+      })
+    })
+
     describe('when there are multiple blogs', function () {
       beforeEach(function () {
         cy.createBlog({ title: 'title1', author: 'author1', url: 'url1' })
@@ -73,7 +110,7 @@ describe('Blog app', function () {
         cy.createBlog({ title: 'title3', author: 'author3', url: 'url3' })
       })
 
-      it.only('A blog can be liked', function () {
+      it('A blog can be liked', function () {
         cy.get('#blogs').contains('title2').parent().as('theBlog')
         cy.get('@theBlog').contains('view').click()
         cy.get('@theBlog').contains('Likes').parent().as('likesSpan')
