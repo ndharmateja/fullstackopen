@@ -17,7 +17,7 @@ const Notification = ({ notification }) => {
     fontSize: '25px',
   }
   return (
-    <div className={isError ? 'error' : ''} style={styles}>
+    <div className={isError ? 'error' : 'notification'} style={styles}>
       {message}
     </div>
   )
