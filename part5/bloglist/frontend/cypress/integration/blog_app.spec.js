@@ -134,6 +134,25 @@ describe('Blog app', function () {
               })
           })
       })
+
+      it.only('blogs are ordered by number of likes', function () {
+        for (let i = 0; i < 3; i++) {
+          cy.likeBlog({ title: 'title1' })
+          cy.wait(1000)
+        }
+        for (let i = 0; i < 2; i++) {
+          cy.likeBlog({ title: 'title2' })
+          cy.wait(1000)
+        }
+        for (let i = 0; i < 5; i++) {
+          cy.likeBlog({ title: 'title3' })
+          cy.wait(1000)
+        }
+
+        cy.get('.blog').eq(0).should('contain', 'title3')
+        cy.get('.blog').eq(1).should('contain', 'title1')
+        cy.get('.blog').eq(2).should('contain', 'title2')
+      })
     })
   })
 })
