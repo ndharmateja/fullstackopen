@@ -8,6 +8,7 @@ const usersRouter = require('./routers/users')
 const loginRouter = require('./routers/login')
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
+require('dotenv').config()
 
 logger.info('Connecting to Mongo DB')
 mongoose
