@@ -53,7 +53,9 @@ const BlogForm = ({ handleCreate }) => {
         />
         <br />
 
-        <button type='submit'>Create</button>
+        <button type='submit' id='create-blog-button'>
+          Create
+        </button>
       </form>
     </>
   )
