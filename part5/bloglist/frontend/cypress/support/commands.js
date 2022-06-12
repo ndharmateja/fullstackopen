@@ -33,6 +33,12 @@ Cypress.Commands.add('login', ({ username, password }) => {
     cy.visit('http://localhost:3000')
   })
 })
+
+Cypress.Commands.add('logout', () => {
+  localStorage.removeItem('loggedBlogappUser')
+  cy.visit('http://localhost:3000')
+})
+
 Cypress.Commands.add('createBlog', ({ title, author, url }) => {
   cy.request({
     url: 'http://localhost:3003/api/blogs',
@@ -44,4 +50,12 @@ Cypress.Commands.add('createBlog', ({ title, author, url }) => {
       }`,
     },
   }).then(() => cy.visit('http://localhost:3000'))
+})
+
+Cypress.Commands.add('createUser', ({ username, password, name }) => {
+  cy.request('POST', 'http://localhost:3003/api/users', {
+    username,
+    password,
+    name,
+  })
 })
