@@ -135,7 +135,7 @@ describe('Blog app', function () {
           })
       })
 
-      it.only('blogs are ordered by number of likes', function () {
+      it('blogs are ordered by number of likes', function () {
         for (let i = 0; i < 3; i++) {
           cy.likeBlog({ title: 'title1' })
           cy.wait(1000)
