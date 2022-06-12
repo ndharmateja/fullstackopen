@@ -43,7 +43,9 @@ const LoginForm = ({ handleLogin, notification, setNotification }) => {
           onChange={({ target: { value } }) => setPassword(value)}
         />
         <br />
-        <button type='submit'>Login</button>
+        <button id='login-button' type='submit'>
+          Login
+        </button>
       </form>
     </div>
   )
