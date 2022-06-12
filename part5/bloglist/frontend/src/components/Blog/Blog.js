@@ -52,7 +52,8 @@ const Blog = ({ blog, handleUpdate, handleDelete, isCreatedByCurrentUser }) => {
           <br />
           <span>
             <strong>Likes: </strong>
-            {blog.likes} <button onClick={likeBlog}>like</button>
+            <span>{blog.likes}</span>
+            <button onClick={likeBlog}>like</button>
           </span>
           <br />
           <span>
