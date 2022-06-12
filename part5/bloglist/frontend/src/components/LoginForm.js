@@ -24,7 +24,7 @@ const LoginForm = ({ handleLogin, notification, setNotification }) => {
     <div>
       <h2>Log in to application</h2>
       <Notification notification={notification} />
-      <form action='' onSubmit={loginUser}>
+      <form action='' onSubmit={loginUser} id='login-form'>
         <label htmlFor='username'>Username</label>
         <input
           type='text'
