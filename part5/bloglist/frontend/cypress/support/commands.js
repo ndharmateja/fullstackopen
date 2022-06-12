@@ -59,3 +59,11 @@ Cypress.Commands.add('createUser', ({ username, password, name }) => {
     name,
   })
 })
+
+Cypress.Commands.add('likeBlog', ({ title }) => {
+  cy.get('#blogs').contains(title).parent().as('theBlog')
+  cy.get('@theBlog').contains('view').click()
+  cy.get('@theBlog').contains('Likes').parent().as('likesSpan')
+  cy.get('@likesSpan').contains('like').click()
+  cy.get('@theBlog').contains('hide').click()
+})
