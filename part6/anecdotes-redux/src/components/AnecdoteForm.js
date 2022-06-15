@@ -1,10 +1,10 @@
 import React from 'react'
-import { createAnecdote } from '../redux/reducers/anecdoteReducer'
+import { createAnecdote } from '../reducers/anecdoteReducer'
 import { useDispatch } from 'react-redux'
 import {
   removeNotification,
   setNotification,
-} from '../redux/reducers/notificationReducer'
+} from '../reducers/notificationReducer'
 import anecdoteService from '../services/anecdotes'
 
 const AnecdoteForm = () => {

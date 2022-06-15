@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { increaseVote } from '../redux/reducers/anecdoteReducer'
+import { increaseVote } from '../reducers/anecdoteReducer'
 import {
   removeNotification,
   setNotification,
-} from '../redux/reducers/notificationReducer'
+} from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
   const anecdotes = [
