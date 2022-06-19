@@ -186,6 +186,7 @@ const App = () => {
         />
         <Route path='/about' element={<About />} />
         <Route path='/create' element={<CreateNew addNew={addNew} />} />
+        <Route path='/anecdotes' element={<Navigate replace to='/' />} />
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
       </Routes>
       <Footer />
