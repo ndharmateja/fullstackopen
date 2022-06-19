@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Routes, Route, Link, useMatch } from 'react-router-dom'
+import {
+  Routes,
+  Route,
+  Link,
+  useMatch,
+  Navigate,
+  useNavigate,
+} from 'react-router-dom'
 
 const Menu = () => {
   const padding = {
@@ -152,6 +159,8 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
 
+  const navigate = useNavigate()
+
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
@@ -159,6 +168,7 @@ const App = () => {
     setTimeout(() => {
       setNotification('')
     }, 5000)
+    navigate('/')
   }
 
   const anecdoteById = (id) => anecdotes.find((a) => a.id === id)
