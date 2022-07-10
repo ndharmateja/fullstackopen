@@ -47,18 +47,18 @@ const App = () => {
   }
 
   const handleCreate = async ({ title, author, url }) => {
-    dispatch(createBlog(blogService, { title, author, url }))
+    dispatch(createBlog({ title, author, url }))
 
     // Hide the create form
     blogFormRef.current.toggleVisibility()
   }
 
   const handleDelete = async (id) => {
-    dispatch(deleteBlog(blogService, id))
+    dispatch(deleteBlog(id))
   }
 
   const handleUpdate = async ({ id, title, author, url, likes }) => {
-    dispatch(updateBlog(blogService, { id, title, author, url, likes }))
+    dispatch(updateBlog({ id, title, author, url, likes }))
   }
 
   blogs.sort((blog1, blog2) => blog2.likes - blog1.likes)
