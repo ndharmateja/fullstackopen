@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import LoginForm from './components/LoginForm'
-import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
 import Blogs from './components/Blogs'
@@ -8,13 +7,15 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import AppLayout from './components/AppLayout'
 import Users from './components/Users'
+import { initializeUsers } from './reducers/usersReducer'
 
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
-    dispatch(initializeBlogs(blogService))
+    dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   return (
