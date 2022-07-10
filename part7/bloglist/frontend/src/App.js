@@ -6,14 +6,17 @@ import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { useDispatch, useSelector } from 'react-redux'
+import { showNotification } from './reducers/notificationReducer'
 
 const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const notification = useSelector((state) => state.notification)
+  const dispatch = useDispatch()
 
+  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState(null)
 
   const blogFormRef = useRef()
 
@@ -48,26 +51,19 @@ const App = () => {
 
     blogFormRef.current.toggleVisibility()
     setBlogs(newBlogs)
-    setNotification({
-      message: `a new blog "${title}" by "${author}" added`,
-      isError: false,
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 3000)
+    dispatch(
+      showNotification(`a new blog "${title}" by "${author}" added`, false)
+    )
   }
 
   const handleDelete = async (id) => {
     await blogService.deleteBlog(id)
 
     const blogToDelete = blogs.find((blog) => blog.id === id)
-    setNotification({
-      message: `Blog "${blogToDelete.title}" by "${blogToDelete.author}" deleted`,
-      isError: false,
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 3000)
+
+    const message = `Blog "${blogToDelete.title}" by "${blogToDelete.author}" deleted`
+    dispatch(showNotification(message, false))
+
     setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id))
   }
 
