@@ -11,6 +11,7 @@ import {
   createBlog,
   deleteBlog,
   initializeBlogs,
+  updateBlog,
 } from './reducers/blogsReducer'
 
 const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
@@ -60,29 +61,8 @@ const App = () => {
     dispatch(deleteBlog(id))
   }
 
-  // const handleUpdate = async ({ id, title, author, url, likes }) => {
-  const handleUpdate = async () => {
-    // const updatedBlog = await blogService.updateBlog({
-    //   id,
-    //   title,
-    //   author,
-    //   url,
-    //   likes,
-    // })
-    // setBlogs((oldBlogs) => {
-    //   return oldBlogs.map((blog) => {
-    //     if (blog.id === updatedBlog.id) {
-    //       return {
-    //         ...blog,
-    //         title: updatedBlog.title,
-    //         url: updatedBlog.url,
-    //         likes: updatedBlog.likes,
-    //         author: updatedBlog.author,
-    //       }
-    //     }
-    //     return blog
-    //   })
-    // })
+  const handleUpdate = async ({ id, title, author, url, likes }) => {
+    dispatch(updateBlog({ id, title, author, url, likes }))
   }
 
   blogs.sort((blog1, blog2) => blog2.likes - blog1.likes)
