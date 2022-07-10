@@ -1,15 +1,15 @@
 import { useEffect, useRef } from 'react'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Blog from '../Blog/Blog'
-import Togglable from '../Togglable'
+import Blog from './Blog/Blog'
+import Togglable from './Togglable'
 import {
   createBlog,
   deleteBlog,
   initializeBlogs,
   updateBlog,
-} from '../../reducers/blogsReducer'
-import BlogForm from '../BlogForm/BlogForm'
+} from '../reducers/blogsReducer'
+import BlogForm from './BlogForm/BlogForm'
 
 const Blogs = () => {
   const dispatch = useDispatch()
