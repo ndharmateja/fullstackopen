@@ -20,6 +20,12 @@ const Blogs = () => {
     blogFormRef.current.toggleVisibility()
   }
 
+  const blogItemStyle = {
+    border: '1px solid black',
+    margin: '0.5rem',
+    padding: '0.5em',
+  }
+
   blogs.sort((blog1, blog2) => blog2.likes - blog1.likes)
   return (
     <>
@@ -27,13 +33,11 @@ const Blogs = () => {
         <BlogForm handleCreate={handleCreate} />
       </Togglable>
       <div id='blogs'>
-        <ul>
-          {blogs.map((blog) => (
-            <li key={blog.id}>
-              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-            </li>
-          ))}
-        </ul>
+        {blogs.map((blog) => (
+          <div style={blogItemStyle} key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          </div>
+        ))}
       </div>
     </>
   )
