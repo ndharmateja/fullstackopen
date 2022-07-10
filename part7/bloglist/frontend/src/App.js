@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Blog from './components/Blog/Blog'
 import BlogForm from './components/BlogForm/BlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   createBlog,
@@ -13,56 +12,53 @@ import {
   initializeBlogs,
   updateBlog,
 } from './reducers/blogsReducer'
-
-const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
+import {
+  loginUser,
+  logoutUser,
+  loadUserFromStorage,
+} from './reducers/userReducer'
 
 const App = () => {
-  const notification = useSelector((state) => state.notification)
-  const blogs = [...useSelector((state) => state.blogs)]
   const dispatch = useDispatch()
 
-  const [user, setUser] = useState(null)
+  const { notification, user } = useSelector((state) => state)
+  const blogs = [...useSelector((state) => state.blogs)]
 
   const blogFormRef = useRef()
 
   useEffect(() => {
-    dispatch(initializeBlogs())
+    dispatch(initializeBlogs(blogService))
   }, [dispatch])
 
   const handleLogin = async ({ username, password }) => {
-    const user = await loginService.login({ username, password })
-    window.localStorage.setItem(LOGGED_BLOGAPP_USER, JSON.stringify(user))
-    blogService.setToken(user.token)
-    setUser(user)
+    dispatch(loginUser({ username, password })).then(() => {
+      if (user) blogService.setToken(user.token)
+    })
   }
 
   useEffect(() => {
-    const loggedInUser = window.localStorage.getItem(LOGGED_BLOGAPP_USER)
-    if (loggedInUser) {
-      const user = JSON.parse(loggedInUser)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
+    dispatch(loadUserFromStorage()).then(() => {
+      if (user) blogService.setToken(user.token)
+    })
   }, [])
 
   const handleLogout = () => {
-    window.localStorage.removeItem(LOGGED_BLOGAPP_USER)
-    setUser(null)
+    dispatch(logoutUser())
   }
 
   const handleCreate = async ({ title, author, url }) => {
-    dispatch(createBlog({ title, author, url }))
+    dispatch(createBlog(blogService, { title, author, url }))
 
     // Hide the create form
     blogFormRef.current.toggleVisibility()
   }
 
   const handleDelete = async (id) => {
-    dispatch(deleteBlog(id))
+    dispatch(deleteBlog(blogService, id))
   }
 
   const handleUpdate = async ({ id, title, author, url, likes }) => {
-    dispatch(updateBlog({ id, title, author, url, likes }))
+    dispatch(updateBlog(blogService, { id, title, author, url, likes }))
   }
 
   blogs.sort((blog1, blog2) => blog2.likes - blog1.likes)
