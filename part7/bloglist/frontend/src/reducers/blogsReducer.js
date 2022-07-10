@@ -22,8 +22,11 @@ export const initializeBlogs = () => {
 }
 
 export const createBlog = ({ title, author, url }) => {
-  return async (dispatch) => {
-    await blogService.createBlog({ title, author, url })
+  return async (dispatch, getState) => {
+    const {
+      user: { token },
+    } = getState()
+    await blogService.createBlog({ title, author, url }, token)
 
     const newBlogs = await blogService.getAll()
     dispatch(setBlogs(newBlogs))
@@ -35,9 +38,13 @@ export const createBlog = ({ title, author, url }) => {
 
 export const deleteBlog = (id) => {
   return async (dispatch, getState) => {
-    await blogService.deleteBlog(id)
+    const {
+      blogs,
+      user: { token },
+    } = getState()
 
-    const { blogs } = getState()
+    await blogService.deleteBlog(id, token)
+
     const blogToDelete = blogs.find((blog) => blog.id === id)
 
     const message = `Blog "${blogToDelete.title}" by "${blogToDelete.author}" deleted`
@@ -49,15 +56,21 @@ export const deleteBlog = (id) => {
 
 export const updateBlog = ({ id, title, author, url, likes }) => {
   return async (dispatch, getState) => {
-    const updatedBlog = await blogService.updateBlog({
-      id,
-      title,
-      author,
-      url,
-      likes,
-    })
+    const {
+      blogs,
+      user: { token },
+    } = getState()
+    const updatedBlog = await blogService.updateBlog(
+      {
+        id,
+        title,
+        author,
+        url,
+        likes,
+      },
+      token
+    )
 
-    const { blogs } = getState()
     dispatch(
       setBlogs(
         blogs.map((blog) => {
