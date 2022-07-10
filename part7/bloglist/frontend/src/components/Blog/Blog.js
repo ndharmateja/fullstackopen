@@ -1,17 +1,23 @@
-import React, { useState } from 'react'
-import propTypes from 'prop-types'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
+import { updateBlog } from '../../reducers/blogsReducer'
 
-const Blog = ({ blog, handleUpdate, handleDelete, isCreatedByCurrentUser }) => {
-  const [showFull, setShowFull] = useState(false)
+const Blog = () => {
+  const { id } = useParams()
+  const blog = useSelector((state) => {
+    return state.blogs.find((blog) => blog.id === id)
+  })
+  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch()
 
-  const blogStyle = {
-    padding: 10,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5,
+  const handleDelete = async (id) => {
+    dispatch(deleteBlog(id))
   }
 
-  const toggleShowFull = () => setShowFull((oldShowFull) => !oldShowFull)
+  const handleUpdate = async ({ id, title, author, url, likes }) => {
+    dispatch(updateBlog({ id, title, author, url, likes }))
+  }
 
   const likeBlog = async () => {
     const { id, title, url, author, likes } = blog
@@ -31,51 +37,37 @@ const Blog = ({ blog, handleUpdate, handleDelete, isCreatedByCurrentUser }) => {
     if (confirm) await handleDelete(blog.id)
   }
 
+  if (!blog) return null
+
   return (
-    <div style={blogStyle} className='blog'>
-      <span style={{ fontSize: '1.4em' }}>
-        &quot;{blog.title}&quot; - {blog.author}{' '}
-      </span>
-      <button style={{ float: 'right' }} onClick={toggleShowFull}>
-        {showFull ? 'hide' : 'view'}
-      </button>
-      <br />
-      <br />
-      {showFull && (
-        <div>
-          <span>
-            <strong>URL: </strong>
-            <a href={blog.url} target='_blank' rel='noreferrer'>
-              {blog.url}
-            </a>
-          </span>
-          <br />
-          <span>
-            <strong>Likes: </strong>
-            <span>{blog.likes}</span>
-            <button onClick={likeBlog}>like</button>
-          </span>
-          <br />
-          <span>
-            <strong>Created by: </strong>
-            {blog.user.name}
-          </span>
-          {isCreatedByCurrentUser && (
-            <p>
-              <button onClick={deleteBlog}>remove</button>
-            </p>
-          )}
-        </div>
-      )}
+    <div className='blog'>
+      <h2>{blog.title}</h2>
+      <div>
+        <span>
+          <strong>URL: </strong>
+          <a href={blog.url} target='_blank' rel='noreferrer'>
+            {blog.url}
+          </a>
+        </span>
+        <br />
+        <span>
+          <strong>Likes: </strong>
+          <span>{blog.likes}</span>
+          <button onClick={likeBlog}>like</button>
+        </span>
+        <br />
+        <span>
+          <strong>Created by: </strong>
+          <Link to={`/users/${blog.user.id}`}>{blog.user.name}</Link>
+        </span>
+        {blog.user.username === user.username && (
+          <p>
+            <button onClick={deleteBlog}>remove</button>
+          </p>
+        )}
+      </div>
     </div>
   )
-}
-
-Blog.propTypes = {
-  blog: propTypes.object.isRequired,
-  handleUpdate: propTypes.func.isRequired,
-  handleDelete: propTypes.func.isRequired,
-  isCreatedByCurrentUser: propTypes.bool.isRequired,
 }
 
 export default Blog
