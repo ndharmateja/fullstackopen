@@ -8,21 +8,22 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from './reducers/notificationReducer'
+import { createBlog, initializeBlogs } from './reducers/blogsReducer'
 
 const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
 
 const App = () => {
   const notification = useSelector((state) => state.notification)
+  const blogs = [...useSelector((state) => state.blogs)]
   const dispatch = useDispatch()
 
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   const handleLogin = async ({ username, password }) => {
     const user = await loginService.login({ username, password })
@@ -46,11 +47,8 @@ const App = () => {
   }
 
   const handleCreate = async ({ title, author, url }) => {
-    await blogService.createBlog({ title, author, url })
-    const newBlogs = await blogService.getAll()
-
+    dispatch(createBlog({ title, author, url }))
     blogFormRef.current.toggleVisibility()
-    setBlogs(newBlogs)
     dispatch(
       showNotification(`a new blog "${title}" by "${author}" added`, false)
     )
@@ -64,31 +62,32 @@ const App = () => {
     const message = `Blog "${blogToDelete.title}" by "${blogToDelete.author}" deleted`
     dispatch(showNotification(message, false))
 
-    setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id))
+    // setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id))
   }
 
-  const handleUpdate = async ({ id, title, author, url, likes }) => {
-    const updatedBlog = await blogService.updateBlog({
-      id,
-      title,
-      author,
-      url,
-      likes,
-    })
-    setBlogs((oldBlogs) => {
-      return oldBlogs.map((blog) => {
-        if (blog.id === updatedBlog.id) {
-          return {
-            ...blog,
-            title: updatedBlog.title,
-            url: updatedBlog.url,
-            likes: updatedBlog.likes,
-            author: updatedBlog.author,
-          }
-        }
-        return blog
-      })
-    })
+  // const handleUpdate = async ({ id, title, author, url, likes }) => {
+  const handleUpdate = async () => {
+    // const updatedBlog = await blogService.updateBlog({
+    //   id,
+    //   title,
+    //   author,
+    //   url,
+    //   likes,
+    // })
+    // setBlogs((oldBlogs) => {
+    //   return oldBlogs.map((blog) => {
+    //     if (blog.id === updatedBlog.id) {
+    //       return {
+    //         ...blog,
+    //         title: updatedBlog.title,
+    //         url: updatedBlog.url,
+    //         likes: updatedBlog.likes,
+    //         author: updatedBlog.author,
+    //       }
+    //     }
+    //     return blog
+    //   })
+    // })
   }
 
   blogs.sort((blog1, blog2) => blog2.likes - blog1.likes)
