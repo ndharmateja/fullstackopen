@@ -8,6 +8,7 @@ import { loadUserFromStorage } from './reducers/userReducer'
 import Blogs from './components/Blogs/Blogs'
 import LoggedUser from './components/LoggedUser/LoggedUser'
 import Header from './components/Header/Header'
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -24,15 +25,27 @@ const App = () => {
 
   return (
     <>
-      {!user && <LoginForm />}
-      {user && (
-        <div>
-          <Header />
-          <Notification />
-          <LoggedUser />
-          <Blogs />
-        </div>
-      )}
+      <Routes>
+        <Route path='*' element={<NotFound />} />
+        <Route path='/login' element={<LoginForm />} />
+        <Route element={user ? <AppLayout /> : <Navigate replace to='login' />}>
+          <Route path='/' element={<Blogs />} />
+          <Route path='/users' element={<Blogs />} />
+        </Route>
+      </Routes>
+    </>
+  )
+}
+
+const NotFound = () => <h1>Not Found</h1>
+
+const AppLayout = () => {
+  return (
+    <>
+      <Header />
+      <Notification />
+      <LoggedUser />
+      <Outlet />
     </>
   )
 }
