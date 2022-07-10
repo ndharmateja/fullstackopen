@@ -1,18 +1,16 @@
 import { useEffect } from 'react'
-import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { loadUserFromStorage } from './reducers/userReducer'
 import Blogs from './components/Blogs/Blogs'
-import LoggedUser from './components/LoggedUser/LoggedUser'
-import Header from './components/Header/Header'
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import NotFound from './components/NotFound'
+import AppLayout from './components/AppLayout'
 
 const App = () => {
   const dispatch = useDispatch()
-
   const user = useSelector((state) => state.user)
 
   useEffect(() => {
@@ -33,19 +31,6 @@ const App = () => {
           <Route path='/users' element={<Blogs />} />
         </Route>
       </Routes>
-    </>
-  )
-}
-
-const NotFound = () => <h1>Not Found</h1>
-
-const AppLayout = () => {
-  return (
-    <>
-      <Header />
-      <Notification />
-      <LoggedUser />
-      <Outlet />
     </>
   )
 }
