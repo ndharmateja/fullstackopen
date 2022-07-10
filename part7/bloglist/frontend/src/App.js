@@ -8,6 +8,7 @@ import Blogs from './components/Blogs'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import NotFound from './components/NotFound'
 import AppLayout from './components/AppLayout'
+import Users from './components/Users'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -33,7 +34,7 @@ const App = () => {
           element={user ? <AppLayout /> : <Navigate replace to='/login' />}
         >
           <Route path='/' element={<Blogs />} />
-          <Route path='/users' element={<Blogs />} />
+          <Route path='/users' element={<Users />} />
         </Route>
       </Routes>
     </>
