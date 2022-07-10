@@ -19,14 +19,19 @@ const App = () => {
 
   useEffect(() => {
     dispatch(loadUserFromStorage())
-  }, [])
+  }, [dispatch])
 
   return (
     <>
       <Routes>
         <Route path='*' element={<NotFound />} />
-        <Route path='/login' element={<LoginForm />} />
-        <Route element={user ? <AppLayout /> : <Navigate replace to='login' />}>
+        <Route
+          path='/login'
+          element={user ? <Navigate replace to='/' /> : <LoginForm />}
+        />
+        <Route
+          element={user ? <AppLayout /> : <Navigate replace to='/login' />}
+        >
           <Route path='/' element={<Blogs />} />
           <Route path='/users' element={<Blogs />} />
         </Route>
