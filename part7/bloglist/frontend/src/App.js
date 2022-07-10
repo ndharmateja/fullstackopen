@@ -12,7 +12,7 @@ import Header from './components/Header/Header'
 const App = () => {
   const dispatch = useDispatch()
 
-  const { notification, user } = useSelector((state) => state)
+  const user = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(initializeBlogs(blogService))
@@ -28,7 +28,7 @@ const App = () => {
       {user && (
         <div>
           <Header />
-          <Notification notification={notification} />
+          <Notification />
           <LoggedUser />
           <Blogs />
         </div>
