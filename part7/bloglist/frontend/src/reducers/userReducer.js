@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import loginService from '../services/login'
 
-const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
+export const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
 
 const userSlice = createSlice({
   name: 'user',
