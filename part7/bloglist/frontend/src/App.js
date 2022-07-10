@@ -7,8 +7,11 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { useDispatch, useSelector } from 'react-redux'
-import { showNotification } from './reducers/notificationReducer'
-import { createBlog, initializeBlogs } from './reducers/blogsReducer'
+import {
+  createBlog,
+  deleteBlog,
+  initializeBlogs,
+} from './reducers/blogsReducer'
 
 const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
 
@@ -48,21 +51,13 @@ const App = () => {
 
   const handleCreate = async ({ title, author, url }) => {
     dispatch(createBlog({ title, author, url }))
+
+    // Hide the create form
     blogFormRef.current.toggleVisibility()
-    dispatch(
-      showNotification(`a new blog "${title}" by "${author}" added`, false)
-    )
   }
 
   const handleDelete = async (id) => {
-    await blogService.deleteBlog(id)
-
-    const blogToDelete = blogs.find((blog) => blog.id === id)
-
-    const message = `Blog "${blogToDelete.title}" by "${blogToDelete.author}" deleted`
-    dispatch(showNotification(message, false))
-
-    // setBlogs((oldBlogs) => oldBlogs.filter((blog) => blog.id !== id))
+    dispatch(deleteBlog(id))
   }
 
   // const handleUpdate = async ({ id, title, author, url, likes }) => {
