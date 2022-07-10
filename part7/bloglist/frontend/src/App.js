@@ -19,15 +19,11 @@ const App = () => {
   }, [dispatch])
 
   const handleLogin = async ({ username, password }) => {
-    dispatch(loginUser({ username, password })).then(() => {
-      if (user) blogService.setToken(user.token)
-    })
+    dispatch(loginUser({ username, password }))
   }
 
   useEffect(() => {
-    dispatch(loadUserFromStorage()).then(() => {
-      if (user) blogService.setToken(user.token)
-    })
+    dispatch(loadUserFromStorage())
   }, [])
 
   return (
