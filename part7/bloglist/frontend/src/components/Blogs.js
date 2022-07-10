@@ -1,16 +1,15 @@
 import { useRef } from 'react'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Blog from './Blog/Blog'
 import Togglable from './Togglable'
-import { createBlog, deleteBlog, updateBlog } from '../reducers/blogsReducer'
+import { createBlog } from '../reducers/blogsReducer'
 import BlogForm from './BlogForm/BlogForm'
+import { Link } from 'react-router-dom'
 
 const Blogs = () => {
   const dispatch = useDispatch()
 
   const blogs = [...useSelector((state) => state.blogs)]
-  const user = useSelector((state) => state.user)
 
   const blogFormRef = useRef()
 
@@ -21,14 +20,6 @@ const Blogs = () => {
     blogFormRef.current.toggleVisibility()
   }
 
-  const handleDelete = async (id) => {
-    dispatch(deleteBlog(id))
-  }
-
-  const handleUpdate = async ({ id, title, author, url, likes }) => {
-    dispatch(updateBlog({ id, title, author, url, likes }))
-  }
-
   blogs.sort((blog1, blog2) => blog2.likes - blog1.likes)
   return (
     <>
@@ -36,15 +27,13 @@ const Blogs = () => {
         <BlogForm handleCreate={handleCreate} />
       </Togglable>
       <div id='blogs'>
-        {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            handleUpdate={handleUpdate}
-            handleDelete={handleDelete}
-            isCreatedByCurrentUser={blog.user.username === user.username}
-          />
-        ))}
+        <ul>
+          {blogs.map((blog) => (
+            <li key={blog.id}>
+              <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   )
