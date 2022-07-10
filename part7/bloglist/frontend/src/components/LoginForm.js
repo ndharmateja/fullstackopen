@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import Notification from './Notification'
 import propTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import { showNotification } from '../reducers/notificationReducer'
 
-const LoginForm = ({ handleLogin, notification, setNotification }) => {
+const LoginForm = ({ handleLogin }) => {
+  const notification = useSelector((state) => state.notification)
+  const dispatch = useDispatch()
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -13,10 +18,7 @@ const LoginForm = ({ handleLogin, notification, setNotification }) => {
       setUsername('')
       setPassword('')
     } catch (error) {
-      setNotification({ message: 'wrong username or password', isError: true })
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
+      dispatch(showNotification('wrong username or password', true))
     }
   }
 
@@ -53,8 +55,6 @@ const LoginForm = ({ handleLogin, notification, setNotification }) => {
 
 LoginForm.propTypes = {
   handleLogin: propTypes.func.isRequired,
-  setNotification: propTypes.func.isRequired,
-  notification: propTypes.object,
 }
 
 export default LoginForm

@@ -98,13 +98,7 @@ const App = () => {
   blogs.sort((blog1, blog2) => blog2.likes - blog1.likes)
   return (
     <>
-      {!user && (
-        <LoginForm
-          handleLogin={handleLogin}
-          notification={notification}
-          setNotification={setNotification}
-        />
-      )}
+      {!user && <LoginForm handleLogin={handleLogin} />}
       {user && (
         <div>
           <h2>blogs</h2>
