@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
-import { updateBlog } from '../../reducers/blogsReducer'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { deleteBlog, updateBlog } from '../../reducers/blogsReducer'
 
 const Blog = () => {
   const { id } = useParams()
@@ -10,31 +10,21 @@ const Blog = () => {
   })
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const handleDelete = async (id) => {
-    dispatch(deleteBlog(id))
-  }
-
-  const handleUpdate = async ({ id, title, author, url, likes }) => {
-    dispatch(updateBlog({ id, title, author, url, likes }))
+  const handleDelete = () => {
+    const confirm = window.confirm(
+      `Remove "${blog.title}" by "${blog.author}"?`
+    )
+    if (confirm) {
+      dispatch(deleteBlog(blog.id))
+      navigate('/')
+    }
   }
 
   const likeBlog = async () => {
     const { id, title, url, author, likes } = blog
-    await handleUpdate({
-      id,
-      title,
-      url,
-      author,
-      likes: likes + 1,
-    })
-  }
-
-  const deleteBlog = async () => {
-    const confirm = window.confirm(
-      `Remove "${blog.title}" by "${blog.author}"?`
-    )
-    if (confirm) await handleDelete(blog.id)
+    dispatch(updateBlog({ id, title, author, url, likes: likes + 1 }))
   }
 
   if (!blog) return null
@@ -62,7 +52,7 @@ const Blog = () => {
         </span>
         {blog.user.username === user.username && (
           <p>
-            <button onClick={deleteBlog}>remove</button>
+            <button onClick={handleDelete}>remove</button>
           </p>
         )}
       </div>
