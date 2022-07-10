@@ -8,10 +8,11 @@ import NotFound from './components/NotFound'
 import AppLayout from './components/AppLayout'
 import Users from './components/Users'
 import { initializeUsers } from './reducers/usersReducer'
+import User from './components/User'
 
 const App = () => {
   const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
+  const loggedInUser = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -23,13 +24,16 @@ const App = () => {
       <Routes>
         <Route path='*' element={<NotFound />} />
         <Route
-          element={user ? <AppLayout /> : <Navigate replace to='/login' />}
+          element={
+            loggedInUser ? <AppLayout /> : <Navigate replace to='/login' />
+          }
         >
           <Route path='/' element={<Blogs />} />
           <Route path='/users' element={<Users />} />
+          <Route path='/users/:id' element={<User />} />
         </Route>
         <Route
-          element={user ? <Navigate replace to='/' /> : <LoginForm />}
+          element={loggedInUser ? <Navigate replace to='/' /> : <LoginForm />}
           path='/login'
         />
       </Routes>
