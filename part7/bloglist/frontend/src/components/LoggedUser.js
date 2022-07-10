@@ -13,7 +13,7 @@ const LoggedUser = () => {
   return (
     <>
       <div className=''>
-        <span>{user.name} logged in</span>
+        <div>{user.name} logged in</div>
         <button onClick={handleLogout}>logout</button>
       </div>
       <br />
