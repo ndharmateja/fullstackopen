@@ -7,12 +7,14 @@ import blogsReducer from './reducers/blogsReducer'
 import { Provider } from 'react-redux'
 import userReducer from './reducers/userReducer'
 import { BrowserRouter as Router } from 'react-router-dom'
+import usersReducer from './reducers/usersReducer'
 
 const store = configureStore({
   reducer: {
     notification: notificationReducer,
     blogs: blogsReducer,
     user: userReducer,
+    users: usersReducer,
   },
 })
 
