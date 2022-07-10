@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import blogService from '../services/blogs'
 import { showNotification } from './notificationReducer'
 
 const blogsSlice = createSlice({
@@ -14,14 +13,14 @@ const blogsSlice = createSlice({
 
 const { setBlogs } = blogsSlice.actions
 
-export const initializeBlogs = () => {
+export const initializeBlogs = (blogService) => {
   return async (dispatch) => {
     const blogs = await blogService.getAll()
     dispatch(setBlogs(blogs))
   }
 }
 
-export const createBlog = ({ title, author, url }) => {
+export const createBlog = (blogService, { title, author, url }) => {
   return async (dispatch) => {
     await blogService.createBlog({ title, author, url })
 
@@ -33,7 +32,7 @@ export const createBlog = ({ title, author, url }) => {
   }
 }
 
-export const deleteBlog = (id) => {
+export const deleteBlog = (blogService, id) => {
   return async (dispatch, getState) => {
     await blogService.deleteBlog(id)
 
@@ -47,7 +46,7 @@ export const deleteBlog = (id) => {
   }
 }
 
-export const updateBlog = ({ id, title, author, url, likes }) => {
+export const updateBlog = (blogService, { id, title, author, url, likes }) => {
   return async (dispatch, getState) => {
     const updatedBlog = await blogService.updateBlog({
       id,
