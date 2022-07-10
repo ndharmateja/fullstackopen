@@ -3,9 +3,12 @@ import loginService from '../services/login'
 
 export const LOGGED_BLOGAPP_USER = 'loggedBlogappUser'
 
+const loggedInUser = window.localStorage.getItem(LOGGED_BLOGAPP_USER)
+const initialState = loggedInUser ? JSON.parse(loggedInUser) : null
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: null,
+  initialState,
   reducers: {
     setUser(state, action) {
       return action.payload
@@ -14,16 +17,6 @@ const userSlice = createSlice({
 })
 
 const { setUser } = userSlice.actions
-
-export const loadUserFromStorage = () => {
-  return async (dispatch) => {
-    const loggedInUser = window.localStorage.getItem(LOGGED_BLOGAPP_USER)
-    if (loggedInUser) {
-      const user = JSON.parse(loggedInUser)
-      dispatch(setUser(user))
-    }
-  }
-}
 
 export const loginUser = ({ username, password }) => {
   return async (dispatch) => {

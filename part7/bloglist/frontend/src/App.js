@@ -3,7 +3,6 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
-import { loadUserFromStorage } from './reducers/userReducer'
 import Blogs from './components/Blogs'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import NotFound from './components/NotFound'
@@ -16,10 +15,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs(blogService))
-  }, [dispatch])
-
-  useEffect(() => {
-    dispatch(loadUserFromStorage())
   }, [dispatch])
 
   return (
