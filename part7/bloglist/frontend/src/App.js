@@ -4,12 +4,9 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
-import {
-  loginUser,
-  logoutUser,
-  loadUserFromStorage,
-} from './reducers/userReducer'
+import { loginUser, loadUserFromStorage } from './reducers/userReducer'
 import Blogs from './components/Blogs/Blogs'
+import LoggedUser from './components/LoggedUser/LoggedUser'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -32,10 +29,6 @@ const App = () => {
     })
   }, [])
 
-  const handleLogout = () => {
-    dispatch(logoutUser())
-  }
-
   return (
     <>
       {!user && <LoginForm handleLogin={handleLogin} />}
@@ -43,11 +36,7 @@ const App = () => {
         <div>
           <h2>blogs</h2>
           <Notification notification={notification} />
-          <div className=''>
-            <span>{user.name} logged in</span>
-            <button onClick={handleLogout}>logout</button>
-          </div>
-          <br />
+          <LoggedUser />
           <Blogs />
         </div>
       )}
