@@ -3,10 +3,12 @@ import Notification from './Notification'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from '../reducers/notificationReducer'
 import { loginUser } from '../reducers/userReducer'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
   const notification = useSelector((state) => state.notification)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -17,6 +19,7 @@ const LoginForm = () => {
       .then(() => {
         setUsername('')
         setPassword('')
+        navigate('/')
       })
       .catch(() => {
         dispatch(showNotification('wrong username or password', true))
