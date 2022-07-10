@@ -9,6 +9,7 @@ import AppLayout from './components/AppLayout'
 import Users from './components/Users'
 import { initializeUsers } from './reducers/usersReducer'
 import User from './components/User'
+import Blog from './components/Blog/Blog'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/' element={<Blogs />} />
           <Route path='/users' element={<Users />} />
           <Route path='/users/:id' element={<User />} />
+          <Route path='/blogs/:id' element={<Blog />} />
         </Route>
         <Route
           element={loggedInUser ? <Navigate replace to='/' /> : <LoginForm />}
