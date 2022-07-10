@@ -11,13 +11,10 @@ const LoggedUser = () => {
   }
 
   return (
-    <>
-      <div className=''>
-        <div>{user.name} logged in</div>
-        <button onClick={handleLogout}>logout</button>
-      </div>
-      <br />
-    </>
+    <div className=''>
+      <span>{user.name} logged in</span>
+      <button onClick={handleLogout}>logout</button>
+    </div>
   )
 }
 

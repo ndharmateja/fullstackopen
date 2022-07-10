@@ -1,7 +1,13 @@
 import React from 'react'
+import LoggedUser from './LoggedUser'
 
 const Header = () => {
-  return <h2>blogs</h2>
+  return (
+    <>
+      <LoggedUser />
+      <h2>blog app</h2>
+    </>
+  )
 }
 
 export default Header

@@ -28,8 +28,8 @@ const LoginForm = () => {
 
   return (
     <div>
-      <h2>Log in to application</h2>
       <Notification notification={notification} />
+      <h2>Log in to application</h2>
       <form action='' onSubmit={handleLoginUser} id='login-form'>
         <label htmlFor='username'>Username</label>
         <input
