@@ -1,14 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Blog from './Blog/Blog'
 import Togglable from './Togglable'
-import {
-  createBlog,
-  deleteBlog,
-  initializeBlogs,
-  updateBlog,
-} from '../reducers/blogsReducer'
+import { createBlog, deleteBlog, updateBlog } from '../reducers/blogsReducer'
 import BlogForm from './BlogForm/BlogForm'
 
 const Blogs = () => {
@@ -18,10 +13,6 @@ const Blogs = () => {
   const user = useSelector((state) => state.user)
 
   const blogFormRef = useRef()
-
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
 
   const handleCreate = async ({ title, author, url }) => {
     dispatch(createBlog({ title, author, url }))
