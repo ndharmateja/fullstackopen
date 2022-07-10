@@ -3,11 +3,13 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import notificationReducer from './reducers/notificationReducer'
+import blogsReducer from './reducers/blogsReducer'
 import { Provider } from 'react-redux'
 
 const store = configureStore({
   reducer: {
     notification: notificationReducer,
+    blogs: blogsReducer,
   },
 })
 
