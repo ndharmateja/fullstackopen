@@ -7,6 +7,7 @@ import { initializeBlogs } from './reducers/blogsReducer'
 import { loginUser, loadUserFromStorage } from './reducers/userReducer'
 import Blogs from './components/Blogs/Blogs'
 import LoggedUser from './components/LoggedUser/LoggedUser'
+import Header from './components/Header/Header'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -34,7 +35,7 @@ const App = () => {
       {!user && <LoginForm handleLogin={handleLogin} />}
       {user && (
         <div>
-          <h2>blogs</h2>
+          <Header />
           <Notification notification={notification} />
           <LoggedUser />
           <Blogs />
