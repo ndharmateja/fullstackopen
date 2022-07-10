@@ -1,32 +1,33 @@
 import React, { useState } from 'react'
 import Notification from './Notification'
-import propTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from '../reducers/notificationReducer'
+import { loginUser } from '../reducers/userReducer'
 
-const LoginForm = ({ handleLogin }) => {
+const LoginForm = () => {
   const notification = useSelector((state) => state.notification)
   const dispatch = useDispatch()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const loginUser = async (e) => {
+  const handleLoginUser = async (e) => {
     e.preventDefault()
-    try {
-      await handleLogin({ username, password })
-      setUsername('')
-      setPassword('')
-    } catch (error) {
-      dispatch(showNotification('wrong username or password', true))
-    }
+    dispatch(loginUser({ username, password }))
+      .then(() => {
+        setUsername('')
+        setPassword('')
+      })
+      .catch(() => {
+        dispatch(showNotification('wrong username or password', true))
+      })
   }
 
   return (
     <div>
       <h2>Log in to application</h2>
       <Notification notification={notification} />
-      <form action='' onSubmit={loginUser} id='login-form'>
+      <form action='' onSubmit={handleLoginUser} id='login-form'>
         <label htmlFor='username'>Username</label>
         <input
           type='text'
@@ -51,10 +52,6 @@ const LoginForm = ({ handleLogin }) => {
       </form>
     </div>
   )
-}
-
-LoginForm.propTypes = {
-  handleLogin: propTypes.func.isRequired,
 }
 
 export default LoginForm

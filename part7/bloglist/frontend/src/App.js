@@ -4,7 +4,7 @@ import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
-import { loginUser, loadUserFromStorage } from './reducers/userReducer'
+import { loadUserFromStorage } from './reducers/userReducer'
 import Blogs from './components/Blogs/Blogs'
 import LoggedUser from './components/LoggedUser/LoggedUser'
 import Header from './components/Header/Header'
@@ -18,17 +18,13 @@ const App = () => {
     dispatch(initializeBlogs(blogService))
   }, [dispatch])
 
-  const handleLogin = async ({ username, password }) => {
-    dispatch(loginUser({ username, password }))
-  }
-
   useEffect(() => {
     dispatch(loadUserFromStorage())
   }, [])
 
   return (
     <>
-      {!user && <LoginForm handleLogin={handleLogin} />}
+      {!user && <LoginForm />}
       {user && (
         <div>
           <Header />
