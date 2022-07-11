@@ -23,7 +23,7 @@ const Header = () => {
           <Nav className='me-auto'>
             <Nav.Link href='#' as='span'>
               <Link style={padding} to='/'>
-                blogsss
+                blogs
               </Link>
             </Nav.Link>
             <Nav.Link href='#' as='span'>
