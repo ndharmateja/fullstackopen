@@ -21,7 +21,7 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <>
+    <div className='container'>
       <Routes>
         <Route path='*' element={<NotFound />} />
         <Route
@@ -39,7 +39,7 @@ const App = () => {
           path='/login'
         />
       </Routes>
-    </>
+    </div>
   )
 }
 
