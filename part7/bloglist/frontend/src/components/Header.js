@@ -23,12 +23,12 @@ const Header = () => {
           <Nav className='me-auto'>
             <Nav.Link href='#' as='span'>
               <Link style={padding} to='/'>
-                blogs
+                Blogs
               </Link>
             </Nav.Link>
             <Nav.Link href='#' as='span'>
               <Link style={padding} to='/users'>
-                users
+                Users
               </Link>
             </Nav.Link>
           </Nav>
