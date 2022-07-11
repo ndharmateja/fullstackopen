@@ -17,7 +17,7 @@ const Header = () => {
   }
   return (
     <>
-      <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+      <Navbar collapseOnSelect expand='md' bg='dark' variant='dark'>
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='me-auto'>
@@ -32,7 +32,7 @@ const Header = () => {
               </Link>
             </Nav.Link>
           </Nav>
-          <div style={{ color: 'white' }} className=''>
+          <div style={{ color: 'white' }} className='p-1'>
             <span>{user.name} logged in </span>
             <button onClick={handleLogout}>logout</button>
           </div>
