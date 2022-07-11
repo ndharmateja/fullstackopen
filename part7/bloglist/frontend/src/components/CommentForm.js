@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addComment } from '../reducers/blogsReducer'
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -8,12 +10,16 @@ const useField = (type) => {
   return { type, value, onChange, setValue }
 }
 
-const CommentForm = () => {
+const CommentForm = ({ blogId }) => {
   const { setValue, ...comment } = useField('text')
+  const dispatch = useDispatch()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setValue('')
+    if (comment.value) {
+      dispatch(addComment({ id: blogId, content: comment.value }))
+      setValue('')
+    }
   }
 
   return (
