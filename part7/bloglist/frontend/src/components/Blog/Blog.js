@@ -41,6 +41,11 @@ const Blog = () => {
         </span>
         <br />
         <span>
+          <strong>Author: </strong>
+          <span>{blog.author}</span>
+        </span>
+        <br />
+        <span>
           <strong>Likes: </strong>
           <span>{blog.likes}</span>
           <button onClick={likeBlog}>like</button>
