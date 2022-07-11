@@ -3,7 +3,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { deleteBlog, updateBlog } from '../../reducers/blogsReducer'
 import CommentForm from '../CommentForm'
-import { Button } from '@mui/material'
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  Container,
+  List,
+  ListItem,
+} from '@mui/material'
 
 const Blog = () => {
   const { id } = useParams()
@@ -32,50 +41,61 @@ const Blog = () => {
   if (!blog) return null
 
   return (
-    <div className='blog'>
-      <h2>{blog.title}</h2>
-      <div>
-        <span>
-          <strong>URL: </strong>
-          <a href={blog.url} target='_blank' rel='noreferrer'>
-            {blog.url}
-          </a>
-        </span>
-        <br />
-        <span>
-          <strong>Author: </strong>
-          <span>{blog.author}</span>
-        </span>
-        <br />
-        <span>
-          <strong>Likes: </strong>
-          <span>{blog.likes}</span>
-        </span>
-        <br />
-        <span>
-          <strong>Created by: </strong>
-          <Link to={`/users/${blog.user.id}`}>{blog.user.name}</Link>
-        </span>
-        <div>
-          <br />
-          <Button onClick={likeBlog}>like</Button>
-          {blog.user.username === user.username && (
-            <Button onClick={handleDelete}>remove</Button>
-          )}
-        </div>
-        <h3>comments</h3>
+    <>
+      <br />
+      <Container className='blog'>
+        <Typography variant='h3'>Blog</Typography>
+        <Card>
+          <CardContent>
+            <Typography gutterBottom variant='h5' component='div'>
+              {blog.title}
+            </Typography>
+            <Typography variant='body2' color='text.secondary'>
+              <a href={blog.url}>{blog.url}</a>
+            </Typography>
+            <Typography variant='body2' color='text.secondary'>
+              <strong>Author: </strong>
+              {blog.author}
+            </Typography>
+            <Typography variant='body2' color='text.secondary'>
+              <strong>Likes: </strong>
+              {blog.likes}
+            </Typography>
+            <br />
+            <Typography variant='body2'>
+              <strong>Created by: </strong>
+              <Link to={`/users/${blog.user.id}`}>{blog.user.name}</Link>
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size='small' onClick={likeBlog}>
+              like
+            </Button>
+            {blog.user.username === user.username && (
+              <Button size='small' onClick={handleDelete}>
+                remove
+              </Button>
+            )}
+          </CardActions>
+        </Card>
+      </Container>
+      <br />
+      <br />
+      <Container>
+        <Typography variant='h3'>Comments</Typography>
         {blog.comments.length === 0 ? (
           <p>&emsp;No comments</p>
         ) : (
-          <ul>
+          <List sx={{ listStyleType: 'circle' }}>
             {blog.comments.map((comment) => (
-              <li key={comment.id}>{comment.content}</li>
+              <ListItem key={comment.id}>{comment.content}</ListItem>
             ))}
-          </ul>
+          </List>
         )}
+        <br />
         <CommentForm blogId={blog.id} />
-      </div>
-    </div>
+      </Container>
+    </>
   )
 }
 
