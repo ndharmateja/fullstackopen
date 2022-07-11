@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { deleteBlog, updateBlog } from '../../reducers/blogsReducer'
 import CommentForm from '../CommentForm'
+import { Button } from '@mui/material'
 
 const Blog = () => {
   const { id } = useParams()
@@ -49,18 +50,19 @@ const Blog = () => {
         <span>
           <strong>Likes: </strong>
           <span>{blog.likes}</span>
-          <button onClick={likeBlog}>like</button>
         </span>
         <br />
         <span>
           <strong>Created by: </strong>
           <Link to={`/users/${blog.user.id}`}>{blog.user.name}</Link>
         </span>
-        {blog.user.username === user.username && (
-          <p>
-            <button onClick={handleDelete}>remove</button>
-          </p>
-        )}
+        <div>
+          <br />
+          <Button onClick={likeBlog}>like</Button>
+          {blog.user.username === user.username && (
+            <Button onClick={handleDelete}>remove</Button>
+          )}
+        </div>
         <h3>comments</h3>
         {blog.comments.length === 0 ? (
           <p>&emsp;No comments</p>
