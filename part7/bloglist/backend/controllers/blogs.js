@@ -1,3 +1,4 @@
+const Comment = require('../models/comment')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
@@ -50,6 +51,7 @@ const deleteBlog = async (request, response) => {
   }
 
   await Blog.findByIdAndRemove(blogId)
+  await Comment.deleteMany({ blog: blogId })
   return response.status(204).end()
 }
 
