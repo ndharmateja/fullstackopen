@@ -1,4 +1,5 @@
 const Comment = require('../models/comment')
+const Blog = require('../models/blog')
 
 const createComment = async (request, response) => {
   const { id: blogId } = request.params
