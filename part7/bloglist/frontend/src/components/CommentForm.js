@@ -1,14 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
+import useField from '../hooks/useField'
 import { addComment } from '../reducers/blogsReducer'
-
-const useField = (type) => {
-  const [value, setValue] = useState('')
-
-  const onChange = (e) => setValue(e.target.value)
-
-  return { type, value, onChange, setValue }
-}
 
 const CommentForm = ({ blogId }) => {
   const { setValue, ...comment } = useField('text')
