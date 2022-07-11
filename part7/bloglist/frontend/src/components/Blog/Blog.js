@@ -62,7 +62,6 @@ const Blog = () => {
           </p>
         )}
         <h3>comments</h3>
-        <CommentForm blogId={blog.id} />
         {blog.comments.length === 0 ? (
           <p>&emsp;No comments</p>
         ) : (
@@ -72,6 +71,7 @@ const Blog = () => {
             ))}
           </ul>
         )}
+        <CommentForm blogId={blog.id} />
       </div>
     </div>
   )

@@ -24,7 +24,8 @@ const CommentForm = ({ blogId }) => {
 
   return (
     <form action='submit' onSubmit={handleSubmit}>
-      <input {...comment} placeholder='Add new comment' />
+      <textarea {...comment} placeholder='Add new comment' />
+      <br />
       <button type='submit'>add comment</button>
     </form>
   )
