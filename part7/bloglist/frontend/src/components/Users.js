@@ -9,6 +9,8 @@ import {
   TableContainer,
   TableRow,
   Paper,
+  Typography,
+  Container,
 } from '@mui/material'
 
 const Users = () => {
@@ -41,10 +43,13 @@ const Users = () => {
     )
 
   return (
-    <>
-      <h2>Users</h2>
+    <Container>
+      <br />
+      <Typography variant='h3' component='div'>
+        Users
+      </Typography>
       {component}
-    </>
+    </Container>
   )
 }
 
