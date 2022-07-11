@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import propTypes from 'prop-types'
+import { TextField, Button } from '@mui/material'
+import useField from '../../hooks/useField'
 
 const BlogForm = ({ handleCreate }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const { setValue: setTitle, ...title } = useField('text')
+  const { setValue: setAuthor, ...author } = useField('text')
+  const { setValue: setUrl, ...url } = useField('text')
 
   const addBlog = async (e) => {
     e.preventDefault()
-    await handleCreate({ title, author, url })
+    await handleCreate({
+      title: title.value,
+      author: author.value,
+      url: url.value,
+    })
     setTitle('')
     setAuthor('')
     setUrl('')
@@ -17,45 +23,21 @@ const BlogForm = ({ handleCreate }) => {
     <>
       <h2>create new</h2>
       <form onSubmit={addBlog}>
-        {/* title */}
-        <label htmlFor='title'>title:</label>
-        <input
-          type='text'
-          id='title'
-          name='title'
-          value={title}
-          placeholder='Blog Title'
-          onChange={({ target: { value } }) => setTitle(value)}
-        />
-        <br />
+        <div>
+          <TextField {...title} label='title'></TextField>
+        </div>
+        <div>
+          <TextField {...author} label='author'></TextField>
+        </div>
+        <div>
+          <TextField {...url} label='url'></TextField>
+        </div>
 
-        {/* author */}
-        <label htmlFor='author'>author:</label>
-        <input
-          type='text'
-          id='author'
-          name='author'
-          value={author}
-          placeholder='Blog Author'
-          onChange={({ target: { value } }) => setAuthor(value)}
-        />
-        <br />
-
-        {/* url */}
-        <label htmlFor='url'>url:</label>
-        <input
-          type='text'
-          id='url'
-          name='url'
-          value={url}
-          placeholder='Blog Url'
-          onChange={({ target: { value } }) => setUrl(value)}
-        />
-        <br />
-
-        <button type='submit' id='create-blog-button'>
-          Create
-        </button>
+        <div>
+          <Button variant='contained' color='primary' type='submit'>
+            create
+          </Button>
+        </div>
       </form>
     </>
   )
