@@ -34,7 +34,7 @@ const Header = () => {
           </Nav>
           <div style={{ color: 'white' }} className='p-1'>
             <span>{user.name} logged in </span>
-            <button onClick={handleLogout}>logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </div>
         </Navbar.Collapse>
       </Navbar>
