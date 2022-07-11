@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logoutUser } from '../reducers/userReducer'
-import { AppBar, Toolbar, IconButton, Button } from '@mui/material'
+import { AppBar, Toolbar, IconButton, Button, Typography } from '@mui/material'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -35,7 +35,9 @@ const Header = () => {
           </div>
         </Toolbar>
       </AppBar>
-      <h2>blog app</h2>
+      <Typography variant='h2' component='div'>
+        Blog App
+      </Typography>
     </>
   )
 }
