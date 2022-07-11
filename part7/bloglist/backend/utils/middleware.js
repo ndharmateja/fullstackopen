@@ -13,6 +13,8 @@ const errorHandler = (error, request, response, next) => {
       return response.status(400).send({ error: message })
     case 'JsonWebTokenError':
       return response.status(401).send({ error: 'Invalid token' })
+    case 'MongooseError':
+      return response.status(401).send({ error: message })
   }
   info(error)
   next(error)
