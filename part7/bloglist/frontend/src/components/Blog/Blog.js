@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { deleteBlog, updateBlog } from '../../reducers/blogsReducer'
+import CommentForm from '../CommentForm'
 
 const Blog = () => {
   const { id } = useParams()
@@ -61,6 +62,7 @@ const Blog = () => {
           </p>
         )}
         <h3>comments</h3>
+        <CommentForm />
         {blog.comments.length === 0 ? (
           <p>&emsp;No comments</p>
         ) : (
