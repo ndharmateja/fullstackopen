@@ -60,6 +60,16 @@ const Blog = () => {
             <button onClick={handleDelete}>remove</button>
           </p>
         )}
+        <h3>comments</h3>
+        {blog.comments.length === 0 ? (
+          <p>&emsp;No comments</p>
+        ) : (
+          <ul>
+            {blog.comments.map((comment) => (
+              <li key={comment.id}>{comment.content}</li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   )
