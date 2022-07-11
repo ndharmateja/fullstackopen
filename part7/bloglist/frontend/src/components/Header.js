@@ -2,37 +2,42 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logoutUser } from '../reducers/userReducer'
+import { Navbar, Nav } from 'react-bootstrap'
 
 const Header = () => {
-  const style = { margin: '0.25rem' }
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
 
   const handleLogout = () => {
     dispatch(logoutUser())
   }
+
+  const padding = {
+    padding: 0,
+  }
   return (
     <>
-      <nav
-        style={{
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
-          display: 'flex',
-          backgroundColor: '#ccc',
-        }}
-      >
-        <li style={style}>
-          <Link to='/'>blogs</Link>
-        </li>
-        <li style={style}>
-          <Link to='/users'>users</Link>
-        </li>
-        <div style={style} className=''>
-          <span>{user.name} logged in </span>
-          <button onClick={handleLogout}>logout</button>
-        </div>
-      </nav>
+      <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+        <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+        <Navbar.Collapse id='responsive-navbar-nav'>
+          <Nav className='me-auto'>
+            <Nav.Link href='#' as='span'>
+              <Link style={padding} to='/'>
+                blogs
+              </Link>
+            </Nav.Link>
+            <Nav.Link href='#' as='span'>
+              <Link style={padding} to='/users'>
+                users
+              </Link>
+            </Nav.Link>
+          </Nav>
+          <div style={{ color: 'white' }} className=''>
+            <span>{user.name} logged in </span>
+            <button onClick={handleLogout}>logout</button>
+          </div>
+        </Navbar.Collapse>
+      </Navbar>
       <h2>blog app</h2>
     </>
   )
