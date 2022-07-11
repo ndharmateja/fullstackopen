@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Notification from './Notification'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from '../reducers/notificationReducer'
 import { loginUser } from '../reducers/userReducer'
 import { useNavigate } from 'react-router-dom'
+import useField from '../hooks/useField'
 
 const LoginForm = () => {
   const notification = useSelector((state) => state.notification)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const { setValue: setUsername, ...username } = useField('text')
+  const { setValue: setPassword, ...password } = useField('text')
 
   const handleLoginUser = async (e) => {
     e.preventDefault()
-    dispatch(loginUser({ username, password }))
+    dispatch(loginUser({ username: username.value, password: password.value }))
       .then(() => {
         setUsername('')
         setPassword('')
@@ -32,22 +33,10 @@ const LoginForm = () => {
       <h2>Log in to application</h2>
       <form action='' onSubmit={handleLoginUser} id='login-form'>
         <label htmlFor='username'>Username</label>
-        <input
-          type='text'
-          name='username'
-          id='username'
-          value={username}
-          onChange={({ target: { value } }) => setUsername(value)}
-        />
+        <input {...username} name='username' id='username' />
         <br />
         <label htmlFor='password'>Password</label>
-        <input
-          type='password'
-          name='password'
-          id='password'
-          value={password}
-          onChange={({ target: { value } }) => setPassword(value)}
-        />
+        <input {...password} name='password' id='password' />
         <br />
         <button id='login-button' type='submit'>
           Login
