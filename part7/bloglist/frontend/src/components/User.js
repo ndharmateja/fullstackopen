@@ -6,12 +6,9 @@ import { Typography, Container } from '@mui/material'
 const User = () => {
   const { id } = useParams()
 
-  console.log(id)
-
   const user = useSelector((state) => {
     return state.users.find((user) => user.id === id)
   })
-  console.log(JSON.stringify(user, null, 2))
 
   if (!user) return null
 
