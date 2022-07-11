@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import useField from '../hooks/useField'
 import { addComment } from '../reducers/blogsReducer'
+import { TextareaAutosize, Button } from '@mui/material'
 
 const CommentForm = ({ blogId }) => {
   const { setValue, ...comment } = useField('text')
@@ -17,9 +18,15 @@ const CommentForm = ({ blogId }) => {
 
   return (
     <form action='submit' onSubmit={handleSubmit}>
-      <textarea maxLength={100} {...comment} placeholder='Add new comment' />
+      <TextareaAutosize
+        maxLength={100}
+        {...comment}
+        placeholder='Add new comment'
+      />
       <br />
-      <button type='submit'>add comment</button>
+      <Button color='primary' variant='contained' type='submit'>
+        add comment
+      </Button>
     </form>
   )
 }
