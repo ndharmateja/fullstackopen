@@ -10,6 +10,7 @@ import Users from './components/Users'
 import { initializeUsers } from './reducers/usersReducer'
 import User from './components/User'
 import Blog from './components/Blog/Blog'
+import { Container } from '@mui/material'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -21,7 +22,7 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div className='container'>
+    <Container className='container'>
       <Routes>
         <Route path='*' element={<NotFound />} />
         <Route
@@ -39,7 +40,7 @@ const App = () => {
           path='/login'
         />
       </Routes>
-    </div>
+    </Container>
   )
 }
 
