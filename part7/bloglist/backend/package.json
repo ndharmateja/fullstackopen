@@ -9,7 +9,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --forceExit",
     "lint": "eslint .",
     "start:test": "cross-env NODE_ENV=test node index.js",
-    "deploy": "git push origin master",
+    "deploy": "git subtree push --prefix backend heroku master",
     "build:ui": "rm -rf build && cd ../frontend && npm run build && cp -r build ../backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy"
   },
