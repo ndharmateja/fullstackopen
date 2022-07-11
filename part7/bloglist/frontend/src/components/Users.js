@@ -19,11 +19,11 @@ const Users = () => {
       <div>No Users</div>
     ) : (
       <TableContainer component={Paper}>
-        <Table>
+        <Table sx={{ minWidth: 650 }} size='small' aria-label='simple table'>
           <TableHead>
             <TableRow>
-              <TableCell></TableCell>
-              <TableCell>blogs created</TableCell>
+              <TableCell>User</TableCell>
+              <TableCell>Blogs Created</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
